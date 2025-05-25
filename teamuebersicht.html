@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teamübersicht - Online Fußballmanager</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+      color: white;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.8em;
+    }
+    #welcomeMessage {
+      font-size: 1.5em;
+      margin-bottom: 40px;
+    }
+    button {
+      background-color: #2a5298;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1e3c72;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Teamübersicht</h1>
+    <div id="welcomeMessage">Lade Benutzerdaten...</div>
+    <button id="logoutBtn">Abmelden</button>
+  </div>
+
+  <script>
+    // Nutzername aus localStorage holen
+    const user = localStorage.getItem('loggedInUser');
+
+    if (!user) {
+      // Kein User angemeldet? Zurück zur Login-Seite
+      window.location.href = 'index.html';
+    } else {
+      const userData = JSON.parse(localStorage.getItem('user_' + user));
+      document.getElementById('welcomeMessage').textContent = `Hallo ${user}, dein Verein: ${userData.clubName}`;
+    }
+
+    // Abmelden-Button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
