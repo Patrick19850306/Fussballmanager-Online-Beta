@@ -2,11 +2,10 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Online-Fußballmanager Beta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online-Fußballmanager Beta - Login</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to bottom right, #1e3c72, #2a5298);
@@ -15,8 +14,8 @@
       color: #333;
     }
     .container {
-      max-width: 900px;
-      margin: 0 auto;
+      max-width: 400px;
+      margin: 40px auto;
       background-color: #ffffffee;
       padding: 30px;
       border-radius: 16px;
@@ -25,183 +24,150 @@
     h1 {
       text-align: center;
       color: #1e3c72;
-      font-size: 2.5em;
+      font-size: 2em;
       margin-bottom: 20px;
-    }
-    section {
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #2a5298;
-      border-bottom: 2px solid #2a5298;
-      padding-bottom: 5px;
-    }
-    ul {
-      line-height: 1.8;
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 10px;
     }
     label {
       font-weight: 700;
     }
-    input[type="text"], input[type="password"] {
+    input[type=text], input[type=password] {
       width: 100%;
       padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 12px;
+      margin: 8px 0 16px 0;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
       box-sizing: border-box;
     }
     button {
+      width: 100%;
       background-color: #2a5298;
       color: white;
+      padding: 12px;
       border: none;
-      padding: 10px 18px;
-      font-size: 1em;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      font-size: 1em;
     }
     button:hover {
       background-color: #1e3c72;
     }
-    #registerMessage, #loginMessage {
-      margin-top: 10px;
+    #message {
+      margin-top: 15px;
+      text-align: center;
       font-weight: 700;
+    }
+    #switchForm {
+      margin-top: 20px;
+      text-align: center;
+      color: #1e3c72;
+      cursor: pointer;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Online-Fußballmanager Beta</h1>
+    <h1 id="formTitle">Login</h1>
+    
+    <form id="authForm">
+      <label for="username">Benutzername:</label>
+      <input type="text" id="username" name="username" required />
 
-    <section>
-      <h2>Grundfunktionen der Beta-Version</h2>
-      <ul>
-        <li>Start mit einer Mannschaft (18 Spieler)</li>
-        <li>Sportplatz mit 500 Plätzen</li>
-        <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
-        <li>Sponsorenverwaltung</li>
-        <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
-        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
-        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
-        <li>Frauenmannschaft (freischaltbar)</li>
-        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
-        <li>Ligapreisgelder bei Saisonabschluss</li>
-        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
-        <li>Regionale Pokalturniere in Saison 1</li>
-        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
-      </ul>
-    </section>
+      <label for="password">Passwort:</label>
+      <input type="password" id="password" name="password" required />
 
-    <section>
-      <h2>Technische Hinweise</h2>
-      <ul>
-        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
-        <li>Fokus auf Funktionalität, nicht Design</li>
-        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Registrierung</h2>
-      <form id="registerForm">
-        <label for="regUsername">Benutzername:</label>
-        <input type="text" id="regUsername" name="regUsername" required />
-
-        <label for="regPassword">Passwort:</label>
-        <input type="password" id="regPassword" name="regPassword" required />
-
+      <div id="extraRegistration" style="display:none;">
         <label for="clubName">Vereinsname:</label>
-        <input type="text" id="clubName" name="clubName" required />
+        <input type="text" id="clubName" name="clubName" />
+      </div>
 
-        <button type="submit">Registrieren</button>
-      </form>
-      <p id="registerMessage"></p>
-    </section>
+      <button type="submit" id="submitBtn">Einloggen</button>
+    </form>
 
-    <section>
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="username">Benutzername:</label>
-        <input type="text" id="username" name="username" required />
-
-        <label for="password">Passwort:</label>
-        <input type="password" id="password" name="password" required />
-
-        <button type="submit">Einloggen</button>
-      </form>
-      <p id="loginMessage"></p>
-    </section>
-  </div> <!-- Ende Container -->
+    <div id="message"></div>
+    <div id="switchForm">Noch keinen Account? Registrieren</div>
+  </div>
 
   <script>
-    // Registrierung
-    const registerForm = document.getElementById('registerForm');
-    const registerMessage = document.getElementById('registerMessage');
+    const formTitle = document.getElementById('formTitle');
+    const authForm = document.getElementById('authForm');
+    const switchForm = document.getElementById('switchForm');
+    const extraRegistration = document.getElementById('extraRegistration');
+    const submitBtn = document.getElementById('submitBtn');
+    const message = document.getElementById('message');
 
-    registerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
+    let isLogin = true; // Login oder Registrierung?
 
-      const regUsername = registerForm.regUsername.value.trim();
-      const regPassword = registerForm.regPassword.value;
-      const clubName = registerForm.clubName.value.trim();
-
-      if (!regUsername || !regPassword || !clubName) {
-        registerMessage.style.color = 'red';
-        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
-        return;
+    switchForm.addEventListener('click', () => {
+      isLogin = !isLogin;
+      if (isLogin) {
+        formTitle.textContent = 'Login';
+        submitBtn.textContent = 'Einloggen';
+        extraRegistration.style.display = 'none';
+        switchForm.textContent = 'Noch keinen Account? Registrieren';
+        message.textContent = '';
+      } else {
+        formTitle.textContent = 'Registrierung';
+        submitBtn.textContent = 'Registrieren';
+        extraRegistration.style.display = 'block';
+        switchForm.textContent = 'Bereits registriert? Login';
+        message.textContent = '';
       }
-
-      if(localStorage.getItem('user_' + regUsername)) {
-        registerMessage.style.color = 'red';
-        registerMessage.textContent = 'Benutzername existiert bereits.';
-        return;
-      }
-
-      const userData = {
-        password: regPassword,
-        clubName: clubName
-      };
-      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
-
-      registerMessage.style.color = 'green';
-      registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
-      
-      registerForm.reset();
     });
 
-    // Login
-    const loginForm = document.getElementById('loginForm');
-    const loginMessage = document.getElementById('loginMessage');
-
-    loginForm.addEventListener('submit', function(e) {
+    authForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const username = authForm.username.value.trim();
+      const password = authForm.password.value;
+      const clubName = authForm.clubName.value.trim();
 
-      const username = loginForm.username.value.trim();
-      const password = loginForm.password.value;
-
-      const storedUser = localStorage.getItem('user_' + username);
-      if (!storedUser) {
-        loginMessage.style.color = 'red';
-        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-        return;
-      }
-
-      const userData = JSON.parse(storedUser);
-      if (userData.password === password) {
-        loginMessage.style.color = 'green';
-        loginMessage.textContent = `Willkommen zurück, ${username}! Dein Verein: ${userData.clubName}`;
-        // TODO: Weiterleitung oder Anzeige Vereins-Dashboard
+      if (isLogin) {
+        // Login-Logik
+        const userDataJSON = localStorage.getItem('user_' + username);
+        if (!userDataJSON) {
+          message.style.color = 'red';
+          message.textContent = 'Benutzer nicht gefunden.';
+          return;
+        }
+        const userData = JSON.parse(userDataJSON);
+        if (userData.password === password) {
+          localStorage.setItem('loggedInUser', username);
+          message.style.color = 'green';
+          message.textContent = 'Erfolgreich eingeloggt! Weiterleitung...';
+          setTimeout(() => {
+            window.location.href = 'teamuebersicht.html';
+          }, 1500);
+        } else {
+          message.style.color = 'red';
+          message.textContent = 'Falsches Passwort.';
+        }
       } else {
-        loginMessage.style.color = 'red';
-        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        // Registrierung
+        if (username === '' || password === '' || clubName === '') {
+          message.style.color = 'red';
+          message.textContent = 'Bitte alle Felder ausfüllen.';
+          return;
+        }
+        if (localStorage.getItem('user_' + username)) {
+          message.style.color = 'red';
+          message.textContent = 'Benutzername existiert bereits.';
+          return;
+        }
+        // Benutzer speichern
+        const newUser = {
+          username: username,
+          password: password,
+          clubName: clubName
+        };
+        localStorage.setItem('user_' + username, JSON.stringify(newUser));
+        localStorage.setItem('loggedInUser', username);
+        message.style.color = 'green';
+        message.textContent = 'Registrierung erfolgreich! Weiterleitung...';
+        setTimeout(() => {
+          window.location.href = 'teamuebersicht.html';
+        }, 1500);
       }
     });
   </script>
 </body>
 </html>
-
