@@ -43,6 +43,35 @@
     li {
       margin-bottom: 10px;
     }
+    label {
+      font-weight: 700;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #2a5298;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1e3c72;
+    }
+    #registerMessage, #loginMessage {
+      margin-top: 10px;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -76,37 +105,103 @@
         <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
       </ul>
     </section>
-  </div>
+
+    <section>
+      <h2>Registrierung</h2>
+      <form id="registerForm">
+        <label for="regUsername">Benutzername:</label>
+        <input type="text" id="regUsername" name="regUsername" required />
+
+        <label for="regPassword">Passwort:</label>
+        <input type="password" id="regPassword" name="regPassword" required />
+
+        <label for="clubName">Vereinsname:</label>
+        <input type="text" id="clubName" name="clubName" required />
+
+        <button type="submit">Registrieren</button>
+      </form>
+      <p id="registerMessage"></p>
+    </section>
+
+    <section>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="username">Benutzername:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Passwort:</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit">Einloggen</button>
+      </form>
+      <p id="loginMessage"></p>
+    </section>
+  </div> <!-- Ende Container -->
+
+  <script>
+    // Registrierung
+    const registerForm = document.getElementById('registerForm');
+    const registerMessage = document.getElementById('registerMessage');
+
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const regUsername = registerForm.regUsername.value.trim();
+      const regPassword = registerForm.regPassword.value;
+      const clubName = registerForm.clubName.value.trim();
+
+      if (!regUsername || !regPassword || !clubName) {
+        registerMessage.style.color = 'red';
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        return;
+      }
+
+      if(localStorage.getItem('user_' + regUsername)) {
+        registerMessage.style.color = 'red';
+        registerMessage.textContent = 'Benutzername existiert bereits.';
+        return;
+      }
+
+      const userData = {
+        password: regPassword,
+        clubName: clubName
+      };
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+
+      registerMessage.style.color = 'green';
+      registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
+      
+      registerForm.reset();
+    });
+
+    // Login
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        loginMessage.style.color = 'red';
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      if (userData.password === password) {
+        loginMessage.style.color = 'green';
+        loginMessage.textContent = `Willkommen zurück, ${username}! Dein Verein: ${userData.clubName}`;
+        // TODO: Weiterleitung oder Anzeige Vereins-Dashboard
+      } else {
+        loginMessage.style.color = 'red';
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+      }
+    });
+  </script>
 </body>
 </html>
-<section>
-  <h2>Login</h2>
-  <form id="loginForm">
-    <label for="username">Benutzername:</label><br />
-    <input type="text" id="username" name="username" required /><br /><br />
-    <label for="password">Passwort:</label><br />
-    <input type="password" id="password" name="password" required /><br /><br />
-    <button type="submit">Einloggen</button>
-  </form>
-  <p id="loginMessage" style="color: red; margin-top: 10px;"></p>
-</section>
 
-<script>
-  const loginForm = document.getElementById('loginForm');
-  const loginMessage = document.getElementById('loginMessage');
-
-  loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const username = loginForm.username.value.trim();
-    const password = loginForm.password.value;
-
-    if (username === 'admin' && password === 'passwort123') {
-      loginMessage.style.color = 'green';
-      loginMessage.textContent = 'Erfolgreich eingeloggt! Willkommen, ' + username + '.';
-    } else {
-      loginMessage.style.color = 'red';
-      loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-    }
-  });
-</script>
