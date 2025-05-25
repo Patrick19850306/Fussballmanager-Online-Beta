@@ -2,97 +2,130 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teamübersicht - Online-Fußballmanager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online-Fußballmanager Beta</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to bottom right, #1e3c72, #2a5298);
       margin: 0;
       padding: 20px;
-      color: #fff;
+      color: #333;
     }
-    #logoutBtn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 8px 15px;
-      background-color: #e74c3c;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease;
-    }
-    #logoutBtn:hover {
-      background-color: #c0392b;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #ffffffee;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
     h1 {
       text-align: center;
-      margin-top: 60px;
-      margin-bottom: 30px;
-      font-size: 2.8em;
+      color: #1e3c72;
+      font-size: 2.5em;
+      margin-bottom: 20px;
     }
-    .team-container {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    section {
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #2a5298;
+      border-bottom: 2px solid #2a5298;
+      padding-bottom: 5px;
     }
     ul {
-      list-style-type: none;
-      padding: 0;
+      line-height: 1.8;
+      padding-left: 20px;
     }
     li {
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      font-size: 1.2em;
+      margin-bottom: 10px;
     }
-    li:last-child {
-      border-bottom: none;
+    .logout {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .team-list {
+      background-color: #ffffffdd;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <button class="logout" onclick="logout()">Logout</button>
 
-  <button id="logoutBtn">Logout</button>
+  <div class="container">
+    <h1>Online-Fußballmanager Beta</h1>
 
-  <h1>Teamübersicht</h1>
+    <section>
+      <h2>Grundfunktionen der Beta-Version</h2>
+      <ul>
+        <li>Start mit einer Mannschaft (18 Spieler)</li>
+        <li>Sportplatz mit 500 Plätzen</li>
+        <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
+        <li>Sponsorenverwaltung</li>
+        <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
+        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
+        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
+        <li>Frauenmannschaft (freischaltbar)</li>
+        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
+        <li>Ligapreisgelder bei Saisonabschluss</li>
+        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
+        <li>Regionale Pokalturniere in Saison 1</li>
+        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
+      </ul>
+    </section>
 
-  <div class="team-container">
-    <h2>Deine Mannschaft</h2>
-    <ul>
-      <li>Spieler 1: Max Mustermann</li>
-      <li>Spieler 2: Anna Beispiel</li>
-      <li>Spieler 3: Peter Muster</li>
-      <li>Spieler 4: Lisa Beispiel</li>
-      <li>Spieler 5: Tom Beispiel</li>
-      <li>Spieler 6: Eva Muster</li>
-      <li>Spieler 7: Karl Beispiel</li>
-      <li>Spieler 8: Mia Muster</li>
-      <li>Spieler 9: Jan Beispiel</li>
-      <li>Spieler 10: Nina Muster</li>
-      <li>Spieler 11: Paul Beispiel</li>
-      <li>Spieler 12: Laura Muster</li>
-      <li>Spieler 13: Jens Beispiel</li>
-      <li>Spieler 14: Sophie Muster</li>
-      <li>Spieler 15: Tim Beispiel</li>
-      <li>Spieler 16: Julia Muster</li>
-      <li>Spieler 17: Felix Beispiel</li>
-      <li>Spieler 18: Lisa Muster</li>
-    </ul>
+    <section>
+      <h2>Technische Hinweise</h2>
+      <ul>
+        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
+        <li>Fokus auf Funktionalität, nicht Design</li>
+        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
+      </ul>
+    </section>
+
+    <section class="team-list">
+      <h2>Deine Mannschaft</h2>
+      <ul>
+        <li>Spieler 1: Max Mustermann</li>
+        <li>Spieler 2: Anna Beispiel</li>
+        <li>Spieler 3: Peter Muster</li>
+        <li>Spieler 4: Lisa Beispiel</li>
+        <li>Spieler 5: Tom Beispiel</li>
+        <li>Spieler 6: Eva Muster</li>
+        <li>Spieler 7: Karl Beispiel</li>
+        <li>Spieler 8: Mia Muster</li>
+        <li>Spieler 9: Jan Beispiel</li>
+        <li>Spieler 10: Nina Muster</li>
+        <li>Spieler 11: Paul Beispiel</li>
+        <li>Spieler 12: Laura Muster</li>
+        <li>Spieler 13: Jens Beispiel</li>
+        <li>Spieler 14: Sophie Muster</li>
+        <li>Spieler 15: Tim Beispiel</li>
+        <li>Spieler 16: Julia Muster</li>
+        <li>Spieler 17: Felix Beispiel</li>
+        <li>Spieler 18: Lisa Muster</li>
+      </ul>
+    </section>
   </div>
 
   <script>
-    const logoutBtn = document.getElementById('logoutBtn');
-    logoutBtn.addEventListener('click', () => {
-      window.location.href = 'index.html'; // Zurück zur Login-Seite leiten
-    });
+    function logout() {
+      window.location.href = 'index.html';
+    }
   </script>
-
 </body>
 </html>
