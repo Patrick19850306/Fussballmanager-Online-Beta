@@ -2,173 +2,97 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Teamübersicht</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teamübersicht - Online-Fußballmanager</title>
   <style>
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to bottom right, #1e3c72, #2a5298);
-      color: #fff;
       margin: 0;
-      padding: 40px;
+      padding: 20px;
+      color: #fff;
+    }
+    #logoutBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 15px;
+      background-color: #e74c3c;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+    #logoutBtn:hover {
+      background-color: #c0392b;
     }
     h1 {
       text-align: center;
+      margin-top: 60px;
       margin-bottom: 30px;
+      font-size: 2.8em;
     }
     .team-container {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
-      background-color: #ffffff22;
+      background-color: rgba(255, 255, 255, 0.1);
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 30px;
-      color: #fff;
+    ul {
+      list-style-type: none;
+      padding: 0;
     }
-    th, td {
-      padding: 12px 15px;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
+    li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      font-size: 1.2em;
     }
-    th {
-      background-color: #2a5298;
-    }
-    tr:hover {
-      background-color: #1e3c72aa;
-    }
-    form {
-      max-width: 400px;
-      margin: 0 auto;
-      background: #ffffff33;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-    form label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: 700;
-    }
-    form input {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      border: none;
-      outline: none;
-    }
-    form button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      background-color: #2a5298;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    form button:hover {
-      background-color: #1e3c72;
-    }
-    .info-text {
-      text-align: center;
-      margin-bottom: 30px;
-      font-style: italic;
-      color: #ddd;
+    li:last-child {
+      border-bottom: none;
     }
   </style>
 </head>
 <body>
 
+  <button id="logoutBtn">Logout</button>
+
   <h1>Teamübersicht</h1>
+
   <div class="team-container">
-
-    <div class="info-text">
-      Hier ist deine Mannschaft mit 18 Spielern. Du kannst neue Spieler hinzufügen.
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Alter</th>
-        </tr>
-      </thead>
-      <tbody id="playerList">
-        <!-- Spieler werden hier per JavaScript eingefügt -->
-      </tbody>
-    </table>
-
-    <form id="addPlayerForm">
-      <h2>Neuen Spieler hinzufügen</h2>
-      <label for="playerName">Name:</label>
-      <input type="text" id="playerName" required />
-      <label for="playerPosition">Position:</label>
-      <input type="text" id="playerPosition" required />
-      <label for="playerAge">Alter:</label>
-      <input type="number" id="playerAge" min="15" max="40" required />
-      <button type="submit">Spieler hinzufügen</button>
-    </form>
-
+    <h2>Deine Mannschaft</h2>
+    <ul>
+      <li>Spieler 1: Max Mustermann</li>
+      <li>Spieler 2: Anna Beispiel</li>
+      <li>Spieler 3: Peter Muster</li>
+      <li>Spieler 4: Lisa Beispiel</li>
+      <li>Spieler 5: Tom Beispiel</li>
+      <li>Spieler 6: Eva Muster</li>
+      <li>Spieler 7: Karl Beispiel</li>
+      <li>Spieler 8: Mia Muster</li>
+      <li>Spieler 9: Jan Beispiel</li>
+      <li>Spieler 10: Nina Muster</li>
+      <li>Spieler 11: Paul Beispiel</li>
+      <li>Spieler 12: Laura Muster</li>
+      <li>Spieler 13: Jens Beispiel</li>
+      <li>Spieler 14: Sophie Muster</li>
+      <li>Spieler 15: Tim Beispiel</li>
+      <li>Spieler 16: Julia Muster</li>
+      <li>Spieler 17: Felix Beispiel</li>
+      <li>Spieler 18: Lisa Muster</li>
+    </ul>
   </div>
 
   <script>
-    // Beispielspieler (18 Stück)
-    const players = [
-      { name: "Max Mustermann", position: "Torwart", age: 28 },
-      { name: "Jan Müller", position: "Verteidiger", age: 24 },
-      { name: "Lukas Schmidt", position: "Mittelfeld", age: 26 },
-      { name: "Felix Weber", position: "Stürmer", age: 22 },
-      { name: "Tim Becker", position: "Verteidiger", age: 29 },
-      { name: "Nico Fischer", position: "Mittelfeld", age: 21 },
-      { name: "Leon Hoffmann", position: "Stürmer", age: 23 },
-      { name: "Paul Wagner", position: "Torwart", age: 27 },
-      { name: "David Keller", position: "Verteidiger", age: 25 },
-      { name: "Simon Neumann", position: "Mittelfeld", age: 24 },
-      { name: "Tom Richter", position: "Stürmer", age: 22 },
-      { name: "Jan Schulz", position: "Verteidiger", age: 26 },
-      { name: "Moritz Lang", position: "Mittelfeld", age: 28 },
-      { name: "Fabian König", position: "Stürmer", age: 24 },
-      { name: "Sebastian Frank", position: "Verteidiger", age: 23 },
-      { name: "Alexander Braun", position: "Mittelfeld", age: 27 },
-      { name: "Christian Wolf", position: "Stürmer", age: 25 },
-      { name: "Dennis Koch", position: "Torwart", age: 30 },
-    ];
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn.addEventListener('click', () => {
+      window.location.href = 'index.html'; // Zurück zur Login-Seite leiten
+    });
+  </script>
 
-    const playerList = document.getElementById("playerList");
-    const addPlayerForm = document.getElementById("addPlayerForm");
-
-    function renderPlayers() {
-      playerList.innerHTML = "";
-      players.forEach((player, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${player.name}</td>
-          <td>${player.position}</td>
-          <td>${player.age}</td>
-        `;
-        playerList.appendChild(tr);
-      });
-    }
-
-    addPlayerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("playerName").value.trim();
-      const position = document.getElementById("playerPosition").value.trim();
-      const age = parseInt(document.getElementById("playerAge").value);
-
-      if(name && position && age >= 15 && age <= 40) {
-        players.push({ name, position, age });
-        renderPlayers();
-        addPlayerForm.reset();
-      } else {
-        alert("Bitte gültige Spielerinformationen eingeben.");
-      }
+</body>
+</html>
