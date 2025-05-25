@@ -2,170 +2,104 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Online-Fußballmanager Beta - Login</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to bottom right, #1e3c72, #2a5298);
       margin: 0;
       padding: 20px;
       color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     .container {
       max-width: 400px;
-      margin: 40px auto;
       background-color: #ffffffee;
       padding: 30px;
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
     }
     h1 {
       text-align: center;
       color: #1e3c72;
-      font-size: 2em;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
     label {
       font-weight: 700;
+      display: block;
+      margin-top: 15px;
     }
-    input[type=text], input[type=password] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 8px;
-      margin: 8px 0 16px 0;
+      margin-top: 5px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 8px;
       box-sizing: border-box;
     }
     button {
+      margin-top: 25px;
       width: 100%;
+      padding: 12px;
       background-color: #2a5298;
       color: white;
-      padding: 12px;
+      font-weight: 700;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1em;
+      transition: background-color 0.3s ease;
     }
     button:hover {
       background-color: #1e3c72;
     }
-    #message {
+    #loginMessage {
       margin-top: 15px;
       text-align: center;
       font-weight: 700;
-    }
-    #switchForm {
-      margin-top: 20px;
-      text-align: center;
-      color: #1e3c72;
-      cursor: pointer;
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 id="formTitle">Login</h1>
-    
-    <form id="authForm">
+    <h1>Login</h1>
+    <form id="loginForm">
       <label for="username">Benutzername:</label>
       <input type="text" id="username" name="username" required />
 
       <label for="password">Passwort:</label>
       <input type="password" id="password" name="password" required />
 
-      <div id="extraRegistration" style="display:none;">
-        <label for="clubName">Vereinsname:</label>
-        <input type="text" id="clubName" name="clubName" />
-      </div>
-
-      <button type="submit" id="submitBtn">Einloggen</button>
+      <button type="submit">Einloggen</button>
+      <p id="loginMessage"></p>
     </form>
-
-    <div id="message"></div>
-    <div id="switchForm">Noch keinen Account? Registrieren</div>
   </div>
 
   <script>
-    const formTitle = document.getElementById('formTitle');
-    const authForm = document.getElementById('authForm');
-    const switchForm = document.getElementById('switchForm');
-    const extraRegistration = document.getElementById('extraRegistration');
-    const submitBtn = document.getElementById('submitBtn');
-    const message = document.getElementById('message');
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
 
-    let isLogin = true; // Login oder Registrierung?
-
-    switchForm.addEventListener('click', () => {
-      isLogin = !isLogin;
-      if (isLogin) {
-        formTitle.textContent = 'Login';
-        submitBtn.textContent = 'Einloggen';
-        extraRegistration.style.display = 'none';
-        switchForm.textContent = 'Noch keinen Account? Registrieren';
-        message.textContent = '';
-      } else {
-        formTitle.textContent = 'Registrierung';
-        submitBtn.textContent = 'Registrieren';
-        extraRegistration.style.display = 'block';
-        switchForm.textContent = 'Bereits registriert? Login';
-        message.textContent = '';
-      }
-    });
-
-    authForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const username = authForm.username.value.trim();
-      const password = authForm.password.value;
-      const clubName = authForm.clubName.value.trim();
 
-      if (isLogin) {
-        // Login-Logik
-        const userDataJSON = localStorage.getItem('user_' + username);
-        if (!userDataJSON) {
-          message.style.color = 'red';
-          message.textContent = 'Benutzer nicht gefunden.';
-          return;
-        }
-        const userData = JSON.parse(userDataJSON);
-        if (userData.password === password) {
-          localStorage.setItem('loggedInUser', username);
-          message.style.color = 'green';
-          message.textContent = 'Erfolgreich eingeloggt! Weiterleitung...';
-          setTimeout(() => {
-            window.location.href = 'teamuebersicht.html';
-          }, 1500);
-        } else {
-          message.style.color = 'red';
-          message.textContent = 'Falsches Passwort.';
-        }
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      // Beispiel-Anmeldedaten
+      if (username === 'admin' && password === 'passwort123') {
+        // Erfolgreicher Login: Weiterleitung zur Teamübersicht
+        window.location.href = 'teamuebersicht.html';
       } else {
-        // Registrierung
-        if (username === '' || password === '' || clubName === '') {
-          message.style.color = 'red';
-          message.textContent = 'Bitte alle Felder ausfüllen.';
-          return;
-        }
-        if (localStorage.getItem('user_' + username)) {
-          message.style.color = 'red';
-          message.textContent = 'Benutzername existiert bereits.';
-          return;
-        }
-        // Benutzer speichern
-        const newUser = {
-          username: username,
-          password: password,
-          clubName: clubName
-        };
-        localStorage.setItem('user_' + username, JSON.stringify(newUser));
-        localStorage.setItem('loggedInUser', username);
-        message.style.color = 'green';
-        message.textContent = 'Registrierung erfolgreich! Weiterleitung...';
-        setTimeout(() => {
-          window.location.href = 'teamuebersicht.html';
-        }, 1500);
+        loginMessage.style.color = 'red';
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
       }
     });
   </script>
