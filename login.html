@@ -1,0 +1,69 @@
+// Registrierung
+registerForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const regUsername = registerForm.regUsername.value.trim();
+  const regPassword = registerForm.regPassword.value;
+  const clubName = registerForm.clubName.value.trim();
+
+  if (!regUsername || !regPassword || !clubName) {
+    registerMessage.style.color = 'red';
+    registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+    return;
+  }
+
+  if(localStorage.getItem('user_' + regUsername)) {
+    registerMessage.style.color = 'red';
+    registerMessage.textContent = 'Benutzername existiert bereits.';
+    return;
+  }
+
+  const userData = {
+    password: regPassword,
+    clubName: clubName
+  };
+  localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+
+  registerMessage.style.color = 'green';
+  registerMessage.textContent = 'Registrierung erfolgreich! Du wirst weitergeleitet...';
+
+  registerForm.reset();
+
+  // Kurze Pause, dann Weiterleitung
+  setTimeout(() => {
+    // Hier speichern wir den angemeldeten Benutzer für Teamübersicht (Session)
+    localStorage.setItem('loggedInUser', regUsername);
+    window.location.href = 'teamuebersicht.html';
+  }, 1500);
+});
+
+// Login
+loginForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const username = loginForm.username.value.trim();
+  const password = loginForm.password.value;
+
+  const storedUser = localStorage.getItem('user_' + username);
+  if (!storedUser) {
+    loginMessage.style.color = 'red';
+    loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+    return;
+  }
+
+  const userData = JSON.parse(storedUser);
+  if (userData.password === password) {
+    loginMessage.style.color = 'green';
+    loginMessage.textContent = `Willkommen zurück, ${username}! Du wirst weitergeleitet...`;
+
+    // Benutzer-Session speichern
+    localStorage.setItem('loggedInUser', username);
+
+    setTimeout(() => {
+      window.location.href = 'teamuebersicht.html';
+    }, 1500);
+  } else {
+    loginMessage.style.color = 'red';
+    loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+  }
+});
