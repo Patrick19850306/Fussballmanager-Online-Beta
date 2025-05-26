@@ -160,11 +160,14 @@
       const username = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value;
 
+      console.log("Login-Versuch:", username);
+
       const storedUser = localStorage.getItem('user_' + username);
 
       if (!storedUser) {
         loginMessage.textContent = 'Benutzername oder Passwort falsch.';
         loginMessage.className = 'message error';
+        console.warn("Kein Benutzer gefunden:", username);
         return;
       }
 
@@ -174,6 +177,7 @@
         localStorage.setItem('loggedInUser', username);
         loginMessage.textContent = 'Login erfolgreich! Du wirst weitergeleitet...';
         loginMessage.className = 'message success';
+        console.log("Login erfolgreich.");
 
         setTimeout(() => {
           window.location.href = 'menue.html';
@@ -181,6 +185,7 @@
       } else {
         loginMessage.textContent = 'Benutzername oder Passwort falsch.';
         loginMessage.className = 'message error';
+        console.warn("Falsches Passwort für:", username);
       }
     });
 
@@ -197,7 +202,7 @@
         return;
       }
 
-      if(localStorage.getItem('user_' + regUsername)) {
+      if (localStorage.getItem('user_' + regUsername)) {
         registerMessage.textContent = 'Benutzername existiert bereits.';
         registerMessage.className = 'message error';
         return;
@@ -210,7 +215,6 @@
       localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
       registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
       registerMessage.className = 'message success';
-
       registerForm.reset();
     });
   </script>
