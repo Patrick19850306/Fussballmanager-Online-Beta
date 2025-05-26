@@ -2,206 +2,177 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Online-Fußballmanager Beta</title>
+  <title>Fußballmanager - Startseite</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-      position: relative;
-      min-height: 100vh;
-    }
-
-    /* Hintergrundbild */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('stadion-hintergrund.png'); /* Pfad zum Bild */
+      font-family: Arial, sans-serif;
+      background: url('bilder/stadion-hintergrund.png') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -2;
+      margin: 0;
+      padding: 40px 20px;
+      color: #fff;
     }
-
-    /* Abdunklung */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.55); /* dunkles Overlay */
-      z-index: -1;
-    }
-
     .container {
-      max-width: 900px;
-      margin: 0 auto 40px auto;
-      background-color: #ffffffee;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
     }
-
-    h1 {
+    h1, h2 {
       text-align: center;
-      color: #1e3c72;
-      font-size: 2.5em;
       margin-bottom: 20px;
+      color: #f0f0f0;
     }
-
-    section {
+    form {
       margin-bottom: 30px;
     }
-
-    h2 {
-      color: #2a5298;
-      border-bottom: 2px solid #2a5298;
-      padding-bottom: 5px;
-    }
-
-    ul {
-      line-height: 1.8;
-      padding-left: 20px;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    #loginSection {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #ffffffee;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    #loginSection h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
     label {
-      font-weight: 700;
       display: block;
-      margin-top: 15px;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #ddd;
     }
-
     input[type="text"],
     input[type="password"] {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 10px;
+      margin-top: 6px;
       border-radius: 6px;
-      border: 1px solid #ccc;
+      border: none;
       box-sizing: border-box;
     }
-
     button {
-      margin-top: 25px;
+      margin-top: 20px;
       width: 100%;
       padding: 12px;
-      background-color: #2a5298;
+      background-color: #1e90ff;
       color: white;
-      font-weight: 700;
+      font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1em;
       transition: background-color 0.3s ease;
     }
-
     button:hover {
-      background-color: #1e3c72;
+      background-color: #006ad1;
     }
-
-    #loginMessage {
+    p.message {
       margin-top: 15px;
       text-align: center;
       font-weight: 700;
-      color: red;
+    }
+    p.error {
+      color: #ff6666;
+    }
+    p.success {
+      color: #66ff66;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h1>Online-Fußballmanager Beta</h1>
+    <h1>Fußballmanager Online</h1>
 
-    <section>
-      <h2>Grundfunktionen der Beta-Version</h2>
-      <ul>
-        <li>Start mit einer Mannschaft (18 Spieler)</li>
-        <li>Sportplatz mit 500 Plätzen</li>
-        <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
-        <li>Sponsorenverwaltung</li>
-        <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
-        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
-        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
-        <li>Frauenmannschaft (freischaltbar)</li>
-        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
-        <li>Ligapreisgelder bei Saisonabschluss</li>
-        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
-        <li>Regionale Pokalturniere in Saison 1</li>
-        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Technische Hinweise</h2>
-      <ul>
-        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
-        <li>Fokus auf Funktionalität, nicht Design</li>
-        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
-      </ul>
-    </section>
-  </div>
-
-  <section id="loginSection">
+    <!-- Login -->
     <h2>Login</h2>
     <form id="loginForm">
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" name="username" required />
+      <label for="loginUsername">Benutzername</label>
+      <input type="text" id="loginUsername" name="loginUsername" required />
 
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" name="password" required />
+      <label for="loginPassword">Passwort</label>
+      <input type="password" id="loginPassword" name="loginPassword" required />
 
       <button type="submit">Einloggen</button>
-      <p id="loginMessage"></p>
+      <p id="loginMessage" class="message"></p>
     </form>
-  </section>
+
+    <!-- Registrierung -->
+    <h2>Registrieren</h2>
+    <form id="registerForm">
+      <label for="regUsername">Benutzername</label>
+      <input type="text" id="regUsername" name="regUsername" required />
+
+      <label for="regPassword">Passwort</label>
+      <input type="password" id="regPassword" name="regPassword" required />
+
+      <button type="submit">Registrieren</button>
+      <p id="registerMessage" class="message"></p>
+    </form>
+  </div>
 
   <script>
     const loginForm = document.getElementById('loginForm');
     const loginMessage = document.getElementById('loginMessage');
 
+    const registerForm = document.getElementById('registerForm');
+    const registerMessage = document.getElementById('registerMessage');
+
+    // Login-Event
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const username = loginForm.username.value.trim();
-      const password = loginForm.password.value;
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
 
-      if (username === 'admin' && password === 'passwort123') {
-        window.location.href = 'teamuebersicht.html';
-      } else {
-        loginMessage.style.color = 'red';
+      const storedUser = localStorage.getItem('user_' + username);
+
+      if (!storedUser) {
         loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+        return;
       }
+
+      const userData = JSON.parse(storedUser);
+
+      if (userData.password === password) {
+        localStorage.setItem('loggedInUser', username);
+        loginMessage.textContent = 'Login erfolgreich! Du wirst weitergeleitet...';
+        loginMessage.className = 'message success';
+
+        setTimeout(() => {
+          window.location.href = 'menue.html';
+        }, 1500);
+      } else {
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+      }
+    });
+
+    // Registrierung-Event
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const regUsername = document.getElementById('regUsername').value.trim();
+      const regPassword = document.getElementById('regPassword').value;
+
+      if (!regUsername || !regPassword) {
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      if (localStorage.getItem('user_' + regUsername)) {
+        registerMessage.textContent = 'Benutzername ist bereits vergeben.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const userData = {
+        password: regPassword
+      };
+
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+      localStorage.setItem('loggedInUser', regUsername);
+
+      registerMessage.textContent = 'Registrierung erfolgreich! Du wirst weitergeleitet...';
+      registerMessage.className = 'message success';
+
+      setTimeout(() => {
+        window.location.href = 'menue.html';
+      }, 1500);
     });
   </script>
 </body>
