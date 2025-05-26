@@ -14,6 +14,7 @@
       padding: 20px;
       color: #333;
     }
+
     .container {
       max-width: 900px;
       margin: 0 auto 40px auto;
@@ -22,24 +23,29 @@
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
+
     h1 {
       text-align: center;
       color: #1e3c72;
       font-size: 2.5em;
       margin-bottom: 20px;
     }
+
     section {
       margin-bottom: 30px;
     }
+
     h2 {
       color: #2a5298;
       border-bottom: 2px solid #2a5298;
       padding-bottom: 5px;
     }
+
     ul {
       line-height: 1.8;
       padding-left: 20px;
     }
+
     li {
       margin-bottom: 10px;
     }
@@ -53,15 +59,18 @@
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
+
     #loginSection h2 {
       text-align: center;
       margin-bottom: 25px;
     }
+
     label {
       font-weight: 700;
       display: block;
       margin-top: 15px;
     }
+
     input[type="text"],
     input[type="password"] {
       width: 100%;
@@ -71,6 +80,7 @@
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
+
     button {
       margin-top: 25px;
       width: 100%;
@@ -84,9 +94,11 @@
       font-size: 1em;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #1e3c72;
     }
+
     #loginMessage {
       margin-top: 15px;
       text-align: center;
@@ -156,7 +168,6 @@
 
       // Beispiel-Anmeldedaten
       if (username === 'admin' && password === 'passwort123') {
-        // Erfolgreicher Login: Weiterleitung zur Teamübersicht
         window.location.href = 'teamuebersicht.html';
       } else {
         loginMessage.style.color = 'red';
