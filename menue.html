@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fußballmanager Menü</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+    }
+
+    .menu-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .menu-image {
+      width: 100%;
+      display: block;
+    }
+
+    .button {
+      position: absolute;
+      padding: 10px 16px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #000;
+    }
+
+    /* Positionierungen */
+    #stadion { top: 20%; left: 10%; }
+    #buero { top: 25%; left: 30%; }
+    #training { top: 40%; left: 20%; }
+    #nachwuchs { top: 50%; left: 5%; }
+    #transfer { top: 60%; left: 30%; }
+    #bank { top: 35%; left: 60%; }
+    #sponsoren { top: 50%; left: 70%; }
+    #ausbau { top: 20%; left: 80%; }
+    #statistik { top: 65%; left: 85%; }
+    #pokal { top: 40%; left: 45%; background-color: gold; color: black; }
+
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <img src="menue-hintergrund.jpg" alt="Menü Hintergrund" class="menu-image" />
+
+    <button id="stadion" class="button" onclick="window.location.href='stadion.html'">Stadion</button>
+    <button id="buero" class="button" onclick="window.location.href='buero.html'">Büro</button>
+    <button id="training" class="button" onclick="window.location.href='training.html'">Training</button>
+    <button id="nachwuchs" class="button" onclick="window.location.href='nachwuchs.html'">Nachwuchs</button>
+    <button id="transfer" class="button" onclick="window.location.href='transfermarkt.html'">Transfermarkt</button>
+    <button id="bank" class="button" onclick="window.location.href='finanzen.html'">Finanzen</button>
+    <button id="sponsoren" class="button" onclick="window.location.href='sponsoren.html'">Sponsoren</button>
+    <button id="ausbau" class="button" onclick="window.location.href='infrastruktur.html'">Ausbau</button>
+    <button id="statistik" class="button" onclick="window.location.href='statistik.html'">Statistiken</button>
+    <button id="pokal" class="button" onclick="window.location.href='pokal.html'">Pokal</button>
+  </div>
+</body>
+</html>
