@@ -130,7 +130,7 @@
       <p id="registerMessage" class="message"></p>
     </form>
 
-    <!-- Vereinserstellung (nur sichtbar, wenn eingeloggt & noch kein Verein) -->
+    <!-- Vereinserstellung (nur sichtbar, wenn eingeloggt und noch kein Verein) -->
     <section id="vereinSection" style="display:none;">
       <h2>Eigenen Verein erstellen</h2>
       <form id="vereinForm">
@@ -182,7 +182,7 @@
   </div>
 
 <script>
-  // Helper-Funktion zum Check von lizenzierten Vereinsnamen (nur Beispiel)
+  // Beispiel: Prüfung auf lizenzierte Vereinsnamen
   function istLizenzierterVerein(name) {
     const lizenzierteNamen = ['Bayern', 'Dortmund', 'Schalke', 'Real', 'Barcelona', 'Juventus'];
     return lizenzierteNamen.some(n => name.toLowerCase().includes(n.toLowerCase()));
@@ -201,36 +201,32 @@
   const vereinLogoInput = document.getElementById('vereinLogo');
   const logoPreview = document.getElementById('logoPreview');
 
-  // Prüfen, ob User eingeloggt ist
+  // Prüfen, ob User eingeloggt ist und ob Verein existiert
   function checkLoggedIn() {
-    const user = localStorage.getItem('loggedInUser');
-    if (user) {
-      vereinSection.style.display = 'block';
-    } else {
-      vereinSection.style.display = 'none';
-    }
-  }
-
-  // Beim Seitenstart prüfen und ggf. weiterleiten
-  function checkLoginAndRedirect() {
     const username = localStorage.getItem('loggedInUser');
-    if (!username) return; // Nicht eingeloggt
+    if (!username) {
+      vereinSection.style.display = 'none';
+      return;
+    }
+    const userDataRaw = localStorage.getItem('user_' + username);
+    if (!userDataRaw) {
+      vereinSection.style.display = 'none';
+      return;
+    }
+    const userData = JSON.parse(userDataRaw);
 
-    const storedUser = localStorage.getItem('user_' + username);
-    if (!storedUser) return; // User nicht gefunden
-
-    const userData = JSON.parse(storedUser);
-    if (userData.verein) {
-      // Verein vorhanden → direkt zum Menü
+    if (userData.verein && userData.verein.name) {
+      // Verein existiert -> direkt weiterleiten ins Menü
       window.location.href = 'menue.html';
     } else {
-      // Kein Verein → Vereinserstellung anzeigen
+      // Verein fehlt -> Vereinserstellungsformular anzeigen
       vereinSection.style.display = 'block';
     }
   }
-  checkLoginAndRedirect();
 
-  // Login
+  checkLoggedIn();
+
+  // Login-Handler
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -239,28 +235,28 @@
 
     loginMessage.textContent = '';
 
-    const storedUser = localStorage.getItem('user_' + username);
+    const storedUserRaw = localStorage.getItem('user_' + username);
 
-    if (!storedUser) {
+    if (!storedUserRaw) {
       loginMessage.textContent = 'Benutzername oder Passwort falsch.';
       loginMessage.className = 'message error';
       return;
     }
 
-    const userData = JSON.parse(storedUser);
+    const userData = JSON.parse(storedUserRaw);
 
     if (userData.password === password) {
       localStorage.setItem('loggedInUser', username);
+      loginMessage.textContent = 'Login erfolgreich!';
 
-      if (userData.verein) {
-        // Verein existiert, direkt zum Menü weiterleiten
-        window.location.href = 'menue.html';
+      // Verein prüfen und ggf. weiterleiten oder Formular zeigen
+      if (userData.verein && userData.verein.name) {
+        setTimeout(() => {
+          window.location.href = 'menue.html';
+        }, 1000);
       } else {
-        // Kein Verein -> Vereinserstellung freigeben und Nachricht zeigen
-        loginMessage.textContent = 'Login erfolgreich! Bitte erstelle deinen Verein.';
-        loginMessage.className = 'message success';
-        checkLoggedIn();
-        vereinSection.scrollIntoView({ behavior: 'smooth' });
+        vereinSection.style.display = 'block';
+        loginMessage.textContent += ' Bitte erstelle deinen Verein.';
       }
 
       loginForm.reset();
@@ -286,7 +282,7 @@
       return;
     }
 
-    // Einfacher Email-Check (Basis)
+    // Einfache Email-Prüfung
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(regEmail)) {
       registerMessage.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
@@ -303,33 +299,8 @@
     const userData = {
       password: regPassword,
       email: regEmail,
-      verein: null,
-      logoBase64: null
+      verein: null
     };
 
     localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
-    registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
-    registerMessage.className = 'message success';
-    registerForm.reset();
-  });
-
-  // Logo-Vorschau und Größenprüfung
-  vereinLogoInput.addEventListener('change', function() {
-    const file = this.files[0];
-    if (!file) {
-      logoPreview.style.display = 'none';
-      logoPreview.src = '';
-      return;
-    }
-
-    // Max 1MB
-    if (file.size > 1024 * 1024) {
-      vereinMessage.textContent = 'Datei zu groß. Maximal 1MB erlaubt.';
-      vereinMessage.className = 'message error';
-      this.value = '';
-      logoPreview.style.display = 'none';
-      logoPreview.src = '';
-      return;
-    }
-
-    // Vorschau anzeigen
+    registerMessage.textContent = 'Registrierung erfolgreich! Du kannst
