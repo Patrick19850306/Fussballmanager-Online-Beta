@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Startseite - Registrierung & Login</title>
+  <title>Fußballmanager - Startseite</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,33 +89,4 @@
     <input type="text" id="username" name="username" required />
 
     <label for="password">Passwort:</label>
-    <input type="password" id="password" name="password" required />
-
-    <button type="submit">Einloggen</button>
-    <p id="loginMessage" class="message"></p>
-  </form>
-
-  <script>
-    const registerForm = document.getElementById('registerForm');
-    const registerMessage = document.getElementById('registerMessage');
-
-    const loginForm = document.getElementById('loginForm');
-    const loginMessage = document.getElementById('loginMessage');
-
-    // Registrierung
-    registerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const regUsername = registerForm.regUsername.value.trim();
-      const regPassword = registerForm.regPassword.value;
-      const clubName = registerForm.clubName.value.trim();
-
-      if (!regUsername || !regPassword || !clubName) {
-        registerMessage.className = 'message error';
-        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
-        return;
-      }
-
-      if (localStorage.getItem('user_' + regUsername)) {
-        registerMessage.className = 'message error';
-        registerMessage.textConte
+    <input type="password" id="password" name="pas
