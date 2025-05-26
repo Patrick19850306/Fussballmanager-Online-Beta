@@ -28,7 +28,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('stadion-hintergrund.png'); /* Pfad zum Bild */
+      background-image: url('stadion-hintergrund.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -43,17 +43,24 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.55); /* dunkles Overlay */
+      background-color: rgba(0, 0, 0, 0.55);
       z-index: -1;
     }
 
-    .container {
+    .container,
+    #loginSection {
       max-width: 900px;
       margin: 0 auto 40px auto;
-      background-color: #ffffffee;
+      background-color: rgba(255, 255, 255, 0.75);
       padding: 30px;
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); /* für Safari */
+    }
+
+    #loginSection {
+      max-width: 400px;
     }
 
     h1 {
@@ -82,20 +89,6 @@
       margin-bottom: 10px;
     }
 
-    #loginSection {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #ffffffee;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    #loginSection h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
     label {
       font-weight: 700;
       display: block;
@@ -109,7 +102,6 @@
       margin-top: 5px;
       border-radius: 6px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     button {
@@ -136,73 +128,3 @@
       font-weight: 700;
       color: red;
     }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <h1>Online-Fußballmanager Beta</h1>
-
-    <section>
-      <h2>Grundfunktionen der Beta-Version</h2>
-      <ul>
-        <li>Start mit einer Mannschaft (18 Spieler)</li>
-        <li>Sportplatz mit 500 Plätzen</li>
-        <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
-        <li>Sponsorenverwaltung</li>
-        <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
-        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
-        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
-        <li>Frauenmannschaft (freischaltbar)</li>
-        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
-        <li>Ligapreisgelder bei Saisonabschluss</li>
-        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
-        <li>Regionale Pokalturniere in Saison 1</li>
-        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Technische Hinweise</h2>
-      <ul>
-        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
-        <li>Fokus auf Funktionalität, nicht Design</li>
-        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
-      </ul>
-    </section>
-  </div>
-
-  <section id="loginSection">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="username">Benutzername:</label>
-      <input type="text" id="username" name="username" required />
-
-      <label for="password">Passwort:</label>
-      <input type="password" id="password" name="password" required />
-
-      <button type="submit">Einloggen</button>
-      <p id="loginMessage"></p>
-    </form>
-  </section>
-
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const loginMessage = document.getElementById('loginMessage');
-
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const username = loginForm.username.value.trim();
-      const password = loginForm.password.value;
-
-      if (username === 'admin' && password === 'passwort123') {
-        window.location.href = 'teamuebersicht.html';
-      } else {
-        loginMessage.style.color = 'red';
-        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-      }
-    });
-  </script>
-</body>
-</html>
