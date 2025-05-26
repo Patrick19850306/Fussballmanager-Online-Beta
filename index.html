@@ -130,7 +130,7 @@
       <p id="registerMessage" class="message"></p>
     </form>
 
-    <!-- Vereinserstellung (nur sichtbar, wenn eingeloggt) -->
+    <!-- Vereinserstellung (nur sichtbar, wenn eingeloggt & noch kein Verein) -->
     <section id="vereinSection" style="display:none;">
       <h2>Eigenen Verein erstellen</h2>
       <form id="vereinForm">
@@ -201,7 +201,7 @@
   const vereinLogoInput = document.getElementById('vereinLogo');
   const logoPreview = document.getElementById('logoPreview');
 
-  // Prüfen, ob User eingeloggt ist (LocalStorage)
+  // Prüfen, ob User eingeloggt ist
   function checkLoggedIn() {
     const user = localStorage.getItem('loggedInUser');
     if (user) {
@@ -210,7 +210,25 @@
       vereinSection.style.display = 'none';
     }
   }
-  checkLoggedIn();
+
+  // Beim Seitenstart prüfen und ggf. weiterleiten
+  function checkLoginAndRedirect() {
+    const username = localStorage.getItem('loggedInUser');
+    if (!username) return; // Nicht eingeloggt
+
+    const storedUser = localStorage.getItem('user_' + username);
+    if (!storedUser) return; // User nicht gefunden
+
+    const userData = JSON.parse(storedUser);
+    if (userData.verein) {
+      // Verein vorhanden → direkt zum Menü
+      window.location.href = 'menue.html';
+    } else {
+      // Kein Verein → Vereinserstellung anzeigen
+      vereinSection.style.display = 'block';
+    }
+  }
+  checkLoginAndRedirect();
 
   // Login
   loginForm.addEventListener('submit', function(e) {
@@ -233,16 +251,19 @@
 
     if (userData.password === password) {
       localStorage.setItem('loggedInUser', username);
-      loginMessage.textContent = 'Login erfolgreich! Vereinserstellung freigeschaltet.';
-      loginMessage.className = 'message success';
 
-      checkLoggedIn();
+      if (userData.verein) {
+        // Verein existiert, direkt zum Menü weiterleiten
+        window.location.href = 'menue.html';
+      } else {
+        // Kein Verein -> Vereinserstellung freigeben und Nachricht zeigen
+        loginMessage.textContent = 'Login erfolgreich! Bitte erstelle deinen Verein.';
+        loginMessage.className = 'message success';
+        checkLoggedIn();
+        vereinSection.scrollIntoView({ behavior: 'smooth' });
+      }
 
-      // Optional Formular leeren
       loginForm.reset();
-
-      // Scroll zur Vereinserstellung
-      vereinSection.scrollIntoView({behavior: 'smooth'});
     } else {
       loginMessage.textContent = 'Benutzername oder Passwort falsch.';
       loginMessage.className = 'message error';
@@ -312,89 +333,3 @@
     }
 
     // Vorschau anzeigen
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      logoPreview.src = e.target.result;
-      logoPreview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-
-    vereinMessage.textContent = 'Achtung: Keine lizenzierten Vereinslogos verwenden!';
-    vereinMessage.className = 'message';
-  });
-
-  // Vereinserstellung
-  vereinForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    vereinMessage.textContent = '';
-
-    const vereinName = document.getElementById('vereinName').value.trim();
-
-    if (!vereinName) {
-      vereinMessage.textContent = 'Bitte einen Vereinsnamen eingeben.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    if (istLizenzierterVerein(vereinName)) {
-      vereinMessage.textContent = 'Dieser Vereinsname ist lizenziert und darf nicht verwendet werden.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const logoFile = vereinLogoInput.files[0];
-    if (logoFile) {
-      const allowedTypes = ['image/png', 'image/jpeg'];
-      if (!allowedTypes.includes(logoFile.type)) {
-        vereinMessage.textContent = 'Nur PNG- und JPG-Dateien sind erlaubt.';
-        vereinMessage.className = 'message error';
-        return;
-      }
-      if (logoFile.size > 1024 * 1024) {
-        vereinMessage.textContent = 'Datei zu groß. Maximal 1MB erlaubt.';
-        vereinMessage.className = 'message error';
-        return;
-      }
-    }
-
-    const username = localStorage.getItem('loggedInUser');
-    if (!username) {
-      vereinMessage.textContent = 'Fehler: Kein eingeloggter Benutzer gefunden.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const storedUser = localStorage.getItem('user_' + username);
-    if (!storedUser) {
-      vereinMessage.textContent = 'Benutzer nicht gefunden.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const userData = JSON.parse(storedUser);
-
-    // Logo als Base64 speichern (async!)
-    if (logoFile) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        userData.logoBase64 = event.target.result;
-        userData.verein = vereinName;
-        localStorage.setItem('user_' + username, JSON.stringify(userData));
-        vereinMessage.textContent = 'Verein und Logo erfolgreich gespeichert! Du wirst weitergeleitet...';
-        vereinMessage.className = 'message success';
-        setTimeout(() => window.location.href = 'menue.html', 1500);
-      };
-      reader.readAsDataURL(logoFile);
-    } else {
-      userData.verein = vereinName;
-      userData.logoBase64 = null;
-      localStorage.setItem('user_' + username, JSON.stringify(userData));
-      vereinMessage.textContent = 'Verein erfolgreich erstellt! Du wirst weitergeleitet...';
-      vereinMessage.className = 'message success';
-      setTimeout(() => window.location.href = 'menue.html', 1500);
-    }
-  });
-</script>
-</body>
-</html>
