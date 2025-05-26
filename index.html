@@ -24,6 +24,15 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
+    #loginSection {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #ffffffee;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
     h1 {
       text-align: center;
       color: #1e3c72;
@@ -31,14 +40,15 @@
       margin-bottom: 20px;
     }
 
-    section {
-      margin-bottom: 30px;
-    }
-
     h2 {
       color: #2a5298;
       border-bottom: 2px solid #2a5298;
       padding-bottom: 5px;
+      margin-top: 30px;
+    }
+
+    section {
+      margin-bottom: 30px;
     }
 
     ul {
@@ -50,49 +60,30 @@
       margin-bottom: 10px;
     }
 
-    /* Login-Bereich Styles */
-    #loginSection {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #ffffffee;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    #loginSection h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
     label {
-      font-weight: 700;
+      font-weight: bold;
       display: block;
       margin-top: 15px;
     }
 
-    input[type="text"],
-    input[type="password"] {
+    input {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 5px;
-      border-radius: 6px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     button {
-      margin-top: 25px;
+      margin-top: 20px;
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       background-color: #2a5298;
       color: white;
-      font-weight: 700;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 1em;
-      transition: background-color 0.3s ease;
     }
 
     button:hover {
@@ -100,9 +91,9 @@
     }
 
     #loginMessage {
-      margin-top: 15px;
       text-align: center;
-      font-weight: 700;
+      margin-top: 10px;
+      font-weight: bold;
       color: red;
     }
   </style>
@@ -162,18 +153,21 @@
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-
       const username = loginForm.username.value.trim();
       const password = loginForm.password.value;
 
-      // Beispiel-Anmeldedaten
       if (username === 'admin' && password === 'passwort123') {
-        window.location.href = 'teamuebersicht.html';
+        loginMessage.style.color = 'green';
+        loginMessage.textContent = 'Erfolgreich eingeloggt. Weiterleitung...';
+        setTimeout(() => {
+          window.location.href = 'teamuebersicht.html';
+        }, 1500);
       } else {
         loginMessage.style.color = 'red';
         loginMessage.textContent = 'Benutzername oder Passwort falsch.';
       }
     });
   </script>
+
 </body>
 </html>
