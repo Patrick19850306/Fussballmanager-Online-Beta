@@ -13,7 +13,7 @@
       color: #fff;
     }
     .container {
-      max-width: 400px;
+      max-width: 600px;
       margin: auto;
       background: rgba(0, 0, 0, 0.75);
       padding: 25px;
@@ -27,6 +27,9 @@
     }
     form {
       margin-bottom: 30px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
     label {
       display: block;
@@ -65,16 +68,27 @@
       font-weight: 700;
     }
     p.error {
-      color: #ff6666;
+      color: red;
     }
     p.success {
       color: #66ff66;
+    }
+    section {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px 20px;
+      border-radius: 10px;
+      color: #eee;
+    }
+    ul {
+      list-style: inside disc;
+      margin-left: 0;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Fußballmanager Online</h1>
+    <h1>Online-Fußballmanager Beta</h1>
 
     <!-- Login -->
     <h2>Login</h2>
@@ -101,6 +115,35 @@
       <button type="submit">Registrieren</button>
       <p id="registerMessage" class="message"></p>
     </form>
+
+    <!-- Info Sektionen -->
+    <section>
+      <h2>Grundfunktionen der Beta-Version</h2>
+      <ul>
+        <li>Start mit einer Mannschaft (18 Spieler)</li>
+        <li>Sportplatz mit 500 Plätzen</li>
+        <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
+        <li>Sponsorenverwaltung</li>
+        <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
+        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
+        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
+        <li>Frauenmannschaft (freischaltbar)</li>
+        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
+        <li>Ligapreisgelder bei Saisonabschluss</li>
+        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
+        <li>Regionale Pokalturniere in Saison 1</li>
+        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Technische Hinweise</h2>
+      <ul>
+        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
+        <li>Fokus auf Funktionalität, nicht Design</li>
+        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
+      </ul>
+    </section>
   </div>
 
   <script>
@@ -148,32 +191,4 @@
       const regUsername = document.getElementById('regUsername').value.trim();
       const regPassword = document.getElementById('regPassword').value;
 
-      if (!regUsername || !regPassword) {
-        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
-        registerMessage.className = 'message error';
-        return;
-      }
-
-      if (localStorage.getItem('user_' + regUsername)) {
-        registerMessage.textContent = 'Benutzername ist bereits vergeben.';
-        registerMessage.className = 'message error';
-        return;
-      }
-
-      const userData = {
-        password: regPassword
-      };
-
-      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
-      localStorage.setItem('loggedInUser', regUsername);
-
-      registerMessage.textContent = 'Registrierung erfolgreich! Du wirst weitergeleitet...';
-      registerMessage.className = 'message success';
-
-      setTimeout(() => {
-        window.location.href = 'menue.html';
-      }, 1500);
-    });
-  </script>
-</body>
-</html>
+      if (!regUsername || !regPasswo
