@@ -1,69 +1,174 @@
-// Registrierung
-registerForm.addEventListener('submit', function(e) {
-  e.preventDefault();
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Startseite - Registrierung & Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2a5298;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2a5298;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1e3c72;
+    }
+    p.message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 700;
+    }
+    p.message.error {
+      color: red;
+    }
+    p.message.success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
 
-  const regUsername = registerForm.regUsername.value.trim();
-  const regPassword = registerForm.regPassword.value;
-  const clubName = registerForm.clubName.value.trim();
+  <h2>Registrierung</h2>
+  <form id="registerForm">
+    <label for="regUsername">Benutzername:</label>
+    <input type="text" id="regUsername" name="regUsername" required />
 
-  if (!regUsername || !regPassword || !clubName) {
-    registerMessage.style.color = 'red';
-    registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
-    return;
-  }
+    <label for="regPassword">Passwort:</label>
+    <input type="password" id="regPassword" name="regPassword" required />
 
-  if(localStorage.getItem('user_' + regUsername)) {
-    registerMessage.style.color = 'red';
-    registerMessage.textContent = 'Benutzername existiert bereits.';
-    return;
-  }
+    <label for="clubName">Clubname:</label>
+    <input type="text" id="clubName" name="clubName" required />
 
-  const userData = {
-    password: regPassword,
-    clubName: clubName
-  };
-  localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+    <button type="submit">Registrieren</button>
+    <p id="registerMessage" class="message"></p>
+  </form>
 
-  registerMessage.style.color = 'green';
-  registerMessage.textContent = 'Registrierung erfolgreich! Du wirst weitergeleitet...';
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label for="username">Benutzername:</label>
+    <input type="text" id="username" name="username" required />
 
-  registerForm.reset();
+    <label for="password">Passwort:</label>
+    <input type="password" id="password" name="password" required />
 
-  // Kurze Pause, dann Weiterleitung
-  setTimeout(() => {
-    // Hier speichern wir den angemeldeten Benutzer für Teamübersicht (Session)
-    localStorage.setItem('loggedInUser', regUsername);
-    window.location.href = 'teamuebersicht.html';
-  }, 1500);
-});
+    <button type="submit">Einloggen</button>
+    <p id="loginMessage" class="message"></p>
+  </form>
 
-// Login
-loginForm.addEventListener('submit', function(e) {
-  e.preventDefault();
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const registerMessage = document.getElementById('registerMessage');
 
-  const username = loginForm.username.value.trim();
-  const password = loginForm.password.value;
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
 
-  const storedUser = localStorage.getItem('user_' + username);
-  if (!storedUser) {
-    loginMessage.style.color = 'red';
-    loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-    return;
-  }
+    // Registrierung
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  const userData = JSON.parse(storedUser);
-  if (userData.password === password) {
-    loginMessage.style.color = 'green';
-    loginMessage.textContent = `Willkommen zurück, ${username}! Du wirst weitergeleitet...`;
+      const regUsername = registerForm.regUsername.value.trim();
+      const regPassword = registerForm.regPassword.value;
+      const clubName = registerForm.clubName.value.trim();
 
-    // Benutzer-Session speichern
-    localStorage.setItem('loggedInUser', username);
+      if (!regUsername || !regPassword || !clubName) {
+        registerMessage.className = 'message error';
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        return;
+      }
 
-    setTimeout(() => {
-      window.location.href = 'menue.html';
-    }, 1500);
-  } else {
-    loginMessage.style.color = 'red';
-    loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-  }
-});
+      if(localStorage.getItem('user_' + regUsername)) {
+        registerMessage.className = 'message error';
+        registerMessage.textContent = 'Benutzername existiert bereits.';
+        return;
+      }
+
+      const userData = {
+        password: regPassword,
+        clubName: clubName
+      };
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+
+      registerMessage.className = 'message success';
+      registerMessage.textContent = 'Registrierung erfolgreich! Du wirst weitergeleitet...';
+
+      registerForm.reset();
+
+      // Kurze Pause, dann Weiterleitung
+      setTimeout(() => {
+        localStorage.setItem('loggedInUser', regUsername);
+        window.location.href = 'menue.html';
+      }, 1500);
+    });
+
+    // Login
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        loginMessage.className = 'message error';
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      if (userData.password === password) {
+        loginMessage.className = 'message success';
+        loginMessage.textContent = `Willkommen zurück, ${username}! Du wirst weitergeleitet...`;
+
+        localStorage.setItem('loggedInUser', username);
+
+        setTimeout(() => {
+          window.location.href = 'menue.html';
+        }, 1500);
+      } else {
+        loginMessage.className = 'message error';
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+      }
+    });
+  </script>
+</body>
+</html>
