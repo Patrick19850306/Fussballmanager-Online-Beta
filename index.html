@@ -153,7 +153,7 @@
     const registerForm = document.getElementById('registerForm');
     const registerMessage = document.getElementById('registerMessage');
 
-    // Login-Event
+    // Login
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -184,11 +184,35 @@
       }
     });
 
-    // Registrierung-Event
+    // Registrierung
     registerForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const regUsername = document.getElementById('regUsername').value.trim();
       const regPassword = document.getElementById('regPassword').value;
 
-      if (!regUsername || !regPasswo
+      if (!regUsername || !regPassword) {
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      if(localStorage.getItem('user_' + regUsername)) {
+        registerMessage.textContent = 'Benutzername existiert bereits.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const userData = {
+        password: regPassword
+      };
+
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+      registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
+      registerMessage.className = 'message success';
+
+      registerForm.reset();
+    });
+  </script>
+</body>
+</html>
