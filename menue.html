@@ -2,101 +2,46 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Hauptmenü - Fußballmanager</title>
+  <title>Fußballmanager - Menü</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: url('menue-hintergrund.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+      background-color: #000;
     }
-
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.7);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    h1 {
-      margin-bottom: 30px;
-      text-align: center;
-      font-size: 2.5em;
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      max-width: 800px;
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    .menu-button {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 2px solid #1e90ff;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .menu-button:hover {
-      background-color: #1e90ff;
-      color: #fff;
-    }
-
-    .logout {
-      margin-top: 40px;
-      background: crimson;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1em;
-      color: white;
-      cursor: pointer;
-    }
-
-    .logout:hover {
-      background: darkred;
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h1>Hauptmenü</h1>
-    <div class="menu-grid">
-      <div class="menu-button" onclick="goTo('team.html')">Teamübersicht</div>
-      <div class="menu-button" onclick="goTo('transfermarkt.html')">Transfermarkt</div>
-      <div class="menu-button" onclick="goTo('sponsoren.html')">Sponsoren</div>
-      <div class="menu-button" onclick="goTo('finanzen.html')">Finanzen</div>
-      <div class="menu-button" onclick="goTo('infrastruktur.html')">Infrastruktur</div>
-      <div class="menu-button" onclick="goTo('nachwuchs.html')">Nachwuchs</div>
-      <div class="menu-button" onclick="goTo('frauen.html')">Frauenmannschaft</div>
-      <div class="menu-button" onclick="goTo('liga.html')">Ligaübersicht</div>
-      <div class="menu-button" onclick="goTo('pokal.html')">Pokalturniere</div>
-    </div>
 
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
+<!-- Bild mit interaktiver Image Map -->
+<img src="/mnt/data/ChatGPT%20Image%2027.%20Mai%202025,%2020_55_17.png" usemap="#fussballmap" alt="Fußball Menü">
 
-  <script>
-    function goTo(page) {
-      // Navigation zur gewählten Seite
-      window.location.href = page;
-    }
+<map name="fussballmap">
+  <!-- Stadion -->
+  <area shape="rect" coords="50,580,270,730" href="/stadion" alt="Stadion" title="Stadion">
 
-    function logout() {
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'index.html';
-    }
-  </script>
+  <!-- Transfermarkt -->
+  <area shape="rect" coords="270,640,460,760" href="/transfermarkt" alt="Transfermarkt" title="Transfermarkt">
+
+  <!-- Trainingsplatz -->
+  <area shape="rect" coords="500,500,700,630" href="/trainingsplatz" alt="Trainingsplatz" title="Trainingsplatz">
+
+  <!-- Fanshop -->
+  <area shape="rect" coords="680,350,830,460" href="/fanshop" alt="Fanshop" title="Fanshop">
+
+  <!-- Pokal -->
+  <area shape="rect" coords="430,280,590,400" href="/pokal" alt="Pokal" title="Pokal">
+
+  <!-- Team -->
+  <area shape="rect" coords="400,200,530,310" href="/team" alt="Team" title="Team">
+
+  <!-- Statistik -->
+  <area shape="rect" coords="690,610,840,720" href="/statistik" alt="Statistik" title="Statistik">
+</map>
+
 </body>
 </html>
