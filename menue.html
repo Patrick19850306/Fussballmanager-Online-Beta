@@ -1,46 +1,54 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <title>Fußballmanager - Menü</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: auto;
       background-color: transparent;
     }
     img {
-      width: 100%;
-      height: auto;
+      max-width: none;
+      width: auto;
+      height: 100%;
       display: block;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
 
 <!-- Bild mit interaktiver Image Map -->
-<img src="/mnt/data/ChatGPT%20Image%2027.%20Mai%202025,%2020_55_17.png" usemap="#fussballmap" alt="Fußball Menü">
+<img src="images/menuebild.png" usemap="#fussballmap" alt="Fußball Menü">
 
 <map name="fussballmap">
   <!-- Stadion -->
-  <area shape="rect" coords="50,580,270,730" href="/stadion" alt="Stadion" title="Stadion">
+  <area shape="rect" coords="50,620,270,770" href="/stadion" alt="Stadion" title="Stadion">
 
   <!-- Transfermarkt -->
-  <area shape="rect" coords="270,640,460,760" href="/transfermarkt" alt="Transfermarkt" title="Transfermarkt">
+  <area shape="rect" coords="300,690,500,810" href="/transfermarkt" alt="Transfermarkt" title="Transfermarkt">
 
-  <!-- Trainingsplatz -->
-  <area shape="rect" coords="500,500,700,630" href="/trainingsplatz" alt="Trainingsplatz" title="Trainingsplatz">
-
-  <!-- Fanshop -->
-  <area shape="rect" coords="680,350,830,460" href="/fanshop" alt="Fanshop" title="Fanshop">
+  <!-- Vereinsheim -->
+  <area shape="rect" coords="270,500,470,640" href="/vereinsheim" alt="Vereinsheim" title="Vereinsheim">
 
   <!-- Pokal -->
-  <area shape="rect" coords="430,280,590,400" href="/pokal" alt="Pokal" title="Pokal">
+  <area shape="rect" coords="480,380,630,520" href="/pokal" alt="Pokal" title="Pokal">
 
-  <!-- Team -->
-  <area shape="rect" coords="400,200,530,310" href="/team" alt="Team" title="Team">
+  <!-- Fanshop -->
+  <area shape="rect" coords="780,380,930,500" href="/fanshop" alt="Fanshop" title="Fanshop">
+
+  <!-- Trainingsplatz -->
+  <area shape="rect" coords="720,500,950,660" href="/trainingsplatz" alt="Trainingsplatz" title="Trainingsplatz">
 
   <!-- Statistik -->
-  <area shape="rect" coords="690,610,840,720" href="/statistik" alt="Statistik" title="Statistik">
+  <area shape="rect" coords="860,660,1020,780" href="/statistik" alt="Statistik" title="Statistik">
+
+  <!-- Bank -->
+  <area shape="rect" coords="100,420,260,540" href="/bank" alt="Bank" title="Bank">
 </map>
 
 </body>
