@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fußballmanager - Startseite</title>
   <style>
     body {
@@ -14,6 +15,7 @@
     }
     .container {
       max-width: 600px;
+      width: 100%;
       margin: auto;
       background: rgba(0, 0, 0, 0.75);
       padding: 25px;
@@ -66,6 +68,17 @@
     button:hover {
       background-color: #006ad1;
     }
+    #logoutBtn {
+      display: none;
+      margin: 10px auto 30px auto;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background-color: #ff4444;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
     p.message {
       margin-top: 15px;
       text-align: center;
@@ -100,6 +113,8 @@
 <body>
   <div class="container">
     <h1>Online-Fußballmanager Beta</h1>
+    <p id="welcomeMsg" style="text-align:center; font-weight:bold;"></p>
+    <button id="logoutBtn">Logout</button>
 
     <!-- Login -->
     <h2>Login</h2>
@@ -130,7 +145,7 @@
       <p id="registerMessage" class="message"></p>
     </form>
 
-    <!-- Vereinserstellung (nur sichtbar, wenn eingeloggt) -->
+    <!-- Vereinserstellung -->
     <section id="vereinSection" style="display:none;">
       <h2>Eigenen Verein erstellen</h2>
       <form id="vereinForm">
@@ -139,7 +154,6 @@
 
         <label for="vereinLogo">Logo hochladen (PNG/JPG, max. 1MB)</label>
         <input type="file" id="vereinLogo" name="vereinLogo" accept="image/png, image/jpeg" />
-
         <img id="logoPreview" src="" alt="Logo-Vorschau" />
 
         <p style="color: #ffcc00; font-weight: bold; margin-top: 10px;">
@@ -151,7 +165,6 @@
       </form>
     </section>
 
-    <!-- Info Sektionen -->
     <section>
       <h2>Grundfunktionen der Beta-Version</h2>
       <ul>
@@ -160,35 +173,25 @@
         <li>Transfermarkt mit Funktionen: Kaufen, Verkaufen, Beobachten, Verleihen</li>
         <li>Sponsorenverwaltung</li>
         <li>Finanzübersicht (Einnahmen, Ausgaben, Kontostand)</li>
-        <li>Ausbaubare Infrastruktur (mit virtuellem Geld freischaltbar)</li>
-        <li>Nachwuchsleistungszentrum für Jungen und Mädchen (freischaltbar)</li>
-        <li>Frauenmannschaft (freischaltbar)</li>
-        <li>Start in der 10. Liga (regional), Aufstieg bis nationale Ligaebene</li>
-        <li>Ligapreisgelder bei Saisonabschluss</li>
-        <li>Nachwuchsligen für Spieler/innen (max. 19 Jahre alt)</li>
-        <li>Regionale Pokalturniere in Saison 1</li>
-        <li>Zusätzlich nationaler Pokal ab Saison 2</li>
+        <li>Ausbaubare Infrastruktur</li>
+        <li>Nachwuchsleistungszentrum</li>
+        <li>Frauenmannschaft</li>
+        <li>Start in der 10. Liga, Aufstieg möglich</li>
+        <li>Ligapreisgelder, Nachwuchsligen, Pokale</li>
       </ul>
     </section>
 
     <section>
       <h2>Technische Hinweise</h2>
       <ul>
-        <li>Beta-Version dient als Testumgebung für neue Funktionen</li>
-        <li>Fokus auf Funktionalität, nicht Design</li>
-        <li>Kostenlose Umsetzung angestrebt (Open Source / Free Hosting Services)</li>
+        <li>Beta-Version als Testumgebung</li>
+        <li>Fokus auf Funktionalität</li>
+        <li>Kostenlos umgesetzt (Open Source)</li>
       </ul>
     </section>
   </div>
 
 <script>
-  // Helper-Funktion zum Check von lizenzierten Vereinsnamen (nur Beispiel)
-  function istLizenzierterVerein(name) {
-    const lizenzierteNamen = ['Bayern', 'Dortmund', 'Schalke', 'Real', 'Barcelona', 'Juventus'];
-    return lizenzierteNamen.some(n => name.toLowerCase().includes(n.toLowerCase()));
-  }
-
-  // Elemente
   const loginForm = document.getElementById('loginForm');
   const loginMessage = document.getElementById('loginMessage');
 
@@ -201,28 +204,40 @@
   const vereinLogoInput = document.getElementById('vereinLogo');
   const logoPreview = document.getElementById('logoPreview');
 
-  // Prüfen, ob User eingeloggt ist (LocalStorage)
+  const welcomeMsg = document.getElementById('welcomeMsg');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function istLizenzierterVerein(name) {
+    const lizenzierteNamen = ['Bayern', 'Dortmund', 'Schalke', 'Real', 'Barcelona', 'Juventus'];
+    return lizenzierteNamen.some(n => name.toLowerCase().includes(n.toLowerCase()));
+  }
+
   function checkLoggedIn() {
     const user = localStorage.getItem('loggedInUser');
     if (user) {
       vereinSection.style.display = 'block';
+      welcomeMsg.textContent = `Willkommen, ${user}!`;
+      logoutBtn.style.display = 'block';
     } else {
       vereinSection.style.display = 'none';
+      welcomeMsg.textContent = '';
+      logoutBtn.style.display = 'none';
     }
   }
   checkLoggedIn();
 
-  // Login
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('loggedInUser');
+    location.reload();
+  });
+
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
-
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value;
-
     loginMessage.textContent = '';
 
     const storedUser = localStorage.getItem('user_' + username);
-
     if (!storedUser) {
       loginMessage.textContent = 'Benutzername oder Passwort falsch.';
       loginMessage.className = 'message error';
@@ -230,18 +245,12 @@
     }
 
     const userData = JSON.parse(storedUser);
-
     if (userData.password === password) {
       localStorage.setItem('loggedInUser', username);
-      loginMessage.textContent = 'Login erfolgreich! Vereinserstellung freigeschaltet.';
+      loginMessage.textContent = 'Login erfolgreich!';
       loginMessage.className = 'message success';
-
       checkLoggedIn();
-
-      // Optional Formular leeren
       loginForm.reset();
-
-      // Scroll zur Vereinserstellung
       vereinSection.scrollIntoView({behavior: 'smooth'});
     } else {
       loginMessage.textContent = 'Benutzername oder Passwort falsch.';
@@ -249,23 +258,19 @@
     }
   });
 
-  // Registrierung
   registerForm.addEventListener('submit', function(e) {
     e.preventDefault();
-
     const regUsername = document.getElementById('regUsername').value.trim();
     const regEmail = document.getElementById('regEmail').value.trim();
     const regPassword = document.getElementById('regPassword').value;
 
     registerMessage.textContent = '';
-
     if (!regUsername || !regEmail || !regPassword) {
       registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
       registerMessage.className = 'message error';
       return;
     }
 
-    // Einfacher Email-Check (Basis)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(regEmail)) {
       registerMessage.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
@@ -279,20 +284,13 @@
       return;
     }
 
-    const userData = {
-      password: regPassword,
-      email: regEmail,
-      verein: null,
-      logoBase64: null
-    };
-
+    const userData = { password: regPassword, email: regEmail, verein: null, logoBase64: null };
     localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
-    registerMessage.textContent = 'Registrierung erfolgreich! Du kannst dich jetzt einloggen.';
+    registerMessage.textContent = 'Registrierung erfolgreich!';
     registerMessage.className = 'message success';
     registerForm.reset();
   });
 
-  // Logo-Vorschau und Größenprüfung
   vereinLogoInput.addEventListener('change', function() {
     const file = this.files[0];
     if (!file) {
@@ -301,7 +299,6 @@
       return;
     }
 
-    // Max 1MB
     if (file.size > 1024 * 1024) {
       vereinMessage.textContent = 'Datei zu groß. Maximal 1MB erlaubt.';
       vereinMessage.className = 'message error';
@@ -311,7 +308,6 @@
       return;
     }
 
-    // Vorschau anzeigen
     const reader = new FileReader();
     reader.onload = function(e) {
       logoPreview.src = e.target.result;
@@ -323,12 +319,9 @@
     vereinMessage.className = 'message';
   });
 
-  // Vereinserstellung
   vereinForm.addEventListener('submit', function(e) {
     e.preventDefault();
-
     vereinMessage.textContent = '';
-
     const vereinName = document.getElementById('vereinName').value.trim();
 
     if (!vereinName) {
@@ -336,31 +329,16 @@
       vereinMessage.className = 'message error';
       return;
     }
-
     if (istLizenzierterVerein(vereinName)) {
-      vereinMessage.textContent = 'Dieser Vereinsname ist lizenziert und darf nicht verwendet werden.';
+      vereinMessage.textContent = 'Dieser Vereinsname ist lizenziert.';
       vereinMessage.className = 'message error';
       return;
     }
 
     const logoFile = vereinLogoInput.files[0];
-    if (logoFile) {
-      const allowedTypes = ['image/png', 'image/jpeg'];
-      if (!allowedTypes.includes(logoFile.type)) {
-        vereinMessage.textContent = 'Nur PNG- und JPG-Dateien sind erlaubt.';
-        vereinMessage.className = 'message error';
-        return;
-      }
-      if (logoFile.size > 1024 * 1024) {
-        vereinMessage.textContent = 'Datei zu groß. Maximal 1MB erlaubt.';
-        vereinMessage.className = 'message error';
-        return;
-      }
-    }
-
     const username = localStorage.getItem('loggedInUser');
     if (!username) {
-      vereinMessage.textContent = 'Fehler: Kein eingeloggter Benutzer gefunden.';
+      vereinMessage.textContent = 'Kein eingeloggter Benutzer.';
       vereinMessage.className = 'message error';
       return;
     }
@@ -374,14 +352,13 @@
 
     const userData = JSON.parse(storedUser);
 
-    // Logo als Base64 speichern (async!)
     if (logoFile) {
       const reader = new FileReader();
       reader.onload = function(event) {
         userData.logoBase64 = event.target.result;
         userData.verein = vereinName;
         localStorage.setItem('user_' + username, JSON.stringify(userData));
-        vereinMessage.textContent = 'Verein und Logo erfolgreich gespeichert! Du wirst weitergeleitet...';
+        vereinMessage.textContent = 'Verein gespeichert! Weiterleitung...';
         vereinMessage.className = 'message success';
         setTimeout(() => window.location.href = 'menue.html', 1500);
       };
@@ -390,7 +367,7 @@
       userData.verein = vereinName;
       userData.logoBase64 = null;
       localStorage.setItem('user_' + username, JSON.stringify(userData));
-      vereinMessage.textContent = 'Verein erfolgreich erstellt! Du wirst weitergeleitet...';
+      vereinMessage.textContent = 'Verein gespeichert! Weiterleitung...';
       vereinMessage.className = 'message success';
       setTimeout(() => window.location.href = 'menue.html', 1500);
     }
