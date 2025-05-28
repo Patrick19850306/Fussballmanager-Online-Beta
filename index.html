@@ -95,6 +95,13 @@
 
     // Login prüfen beim Laden
     document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = localStorage.getItem('loggedInUser');
+      const userData = currentUser ? JSON.parse(localStorage.getItem('user_' + currentUser)) : null;
+      if (currentUser && userData && userData.verein) {
+        window.location.href = 'menue.html';
+      } else {
+        localStorage.removeItem('loggedInUser');
+      }
       const defaultLogos = document.querySelectorAll('.default-logo');
       const vereinLogoInput = document.getElementById('vereinLogo');
       const logoPreview = document.getElementById('logoPreview');
