@@ -124,6 +124,35 @@
     <p id="welcomeMsg" style="text-align:center; font-weight:bold;"></p>
     <button id="logoutBtn">Logout</button>
 
+    <!-- Login -->
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="loginUsername">Benutzername</label>
+      <input type="text" id="loginUsername" name="loginUsername" required />
+
+      <label for="loginPassword">Passwort</label>
+      <input type="password" id="loginPassword" name="loginPassword" required />
+
+      <button type="submit">Einloggen</button>
+      <p id="loginMessage" class="message"></p>
+    </form>
+
+    <!-- Registrierung -->
+    <h2>Registrieren</h2>
+    <form id="registerForm">
+      <label for="regUsername">Benutzername</label>
+      <input type="text" id="regUsername" name="regUsername" required />
+
+      <label for="regEmail">E-Mail</label>
+      <input type="email" id="regEmail" name="regEmail" required />
+
+      <label for="regPassword">Passwort</label>
+      <input type="password" id="regPassword" name="regPassword" required />
+
+      <button type="submit">Registrieren</button>
+      <p id="registerMessage" class="message"></p>
+    </form>
+
     <!-- Vereinserstellung -->
     <section id="vereinSection" style="display:none;">
       <h2>Eigenen Verein erstellen</h2>
@@ -191,6 +220,87 @@
         img.classList.add('selected');
         selectedLogo = img.src;
       });
+    });
+
+    function checkLoggedIn() {
+      const user = localStorage.getItem('loggedInUser');
+      if (user) {
+        document.getElementById('vereinSection').style.display = 'block';
+        document.getElementById('welcomeMsg').textContent = `Willkommen, ${user}!`;
+        document.getElementById('logoutBtn').style.display = 'block';
+      } else {
+        document.getElementById('vereinSection').style.display = 'none';
+        document.getElementById('welcomeMsg').textContent = '';
+        document.getElementById('logoutBtn').style.display = 'none';
+      }
+    }
+    checkLoggedIn();
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      location.reload();
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const loginMessage = document.getElementById('loginMessage');
+      loginMessage.textContent = '';
+
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      if (userData.password === password) {
+        localStorage.setItem('loggedInUser', username);
+        loginMessage.textContent = 'Login erfolgreich!';
+        loginMessage.className = 'message success';
+        checkLoggedIn();
+        document.getElementById('loginForm').reset();
+        document.getElementById('vereinSection').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const regUsername = document.getElementById('regUsername').value.trim();
+      const regEmail = document.getElementById('regEmail').value.trim();
+      const regPassword = document.getElementById('regPassword').value;
+      const registerMessage = document.getElementById('registerMessage');
+      registerMessage.textContent = '';
+
+      if (!regUsername || !regEmail || !regPassword) {
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(regEmail)) {
+        registerMessage.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      if (localStorage.getItem('user_' + regUsername)) {
+        registerMessage.textContent = 'Benutzername existiert bereits.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const userData = { password: regPassword, email: regEmail, verein: null, logoBase64: null };
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+      registerMessage.textContent = 'Registrierung erfolgreich!';
+      registerMessage.className = 'message success';
+      document.getElementById('registerForm').reset();
     });
 
     document.getElementById('vereinForm').addEventListener('submit', function(e) {
