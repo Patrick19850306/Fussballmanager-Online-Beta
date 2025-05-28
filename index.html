@@ -95,49 +95,37 @@
 
     // Login prüfen beim Laden
     document.addEventListener('DOMContentLoaded', () => {
-      const currentUser = localStorage.getItem('loggedInUser');
-      const userData = currentUser ? JSON.parse(localStorage.getItem('user_' + currentUser)) : null;
-      if (currentUser && userData && userData.verein) {
-        window.location.href = 'menue.html';
-      } else {
-        localStorage.removeItem('loggedInUser');
-      }
-      const defaultLogos = document.querySelectorAll('.default-logo');
-      const vereinLogoInput = document.getElementById('vereinLogo');
-      const logoPreview = document.getElementById('logoPreview');
-      let selectedDefaultLogo = null;
+  // Kein automatischer Menü-Redirect – Login erforderlich
+  localStorage.removeItem('loggedInUser'); // Nur zur Sicherheit leeren
 
-      defaultLogos.forEach(img => {
-        img.addEventListener('click', () => {
-          defaultLogos.forEach(i => i.classList.remove('selected'));
-          img.classList.add('selected');
-          selectedDefaultLogo = img.src;
-          vereinLogoInput.value = '';
-          logoPreview.src = img.src;
-          logoPreview.style.display = 'block';
-        });
-      });
+  // Theme laden
+  const themeToggleBtn = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+  }
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
 
-      const savedUser = localStorage.getItem('loggedInUser');
-      if (savedUser) {
-        const userData = JSON.parse(localStorage.getItem('user_' + savedUser));
-        if (userData && userData.verein) {
-          window.location.href = 'menue.html';
-        } else {
-          vereinForm.style.display = 'block';
-        }
-      }
+  // Logo-Auswahl vorbereiten
+  const defaultLogos = document.querySelectorAll('.default-logo');
+  const vereinLogoInput = document.getElementById('vereinLogo');
+  const logoPreview = document.getElementById('logoPreview');
+  let selectedDefaultLogo = null;
 
-      const themeToggleBtn = document.getElementById('themeToggle');
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light') {
-        document.body.classList.add('light-theme');
-      }
-      themeToggleBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      });
+  defaultLogos.forEach(img => {
+    img.addEventListener('click', () => {
+      defaultLogos.forEach(i => i.classList.remove('selected'));
+      img.classList.add('selected');
+      selectedDefaultLogo = img.src;
+      vereinLogoInput.value = '';
+      logoPreview.src = img.src;
+      logoPreview.style.display = 'block';
+    });
+  });
     });
 
     loginForm.addEventListener('submit', function(e) {
