@@ -41,8 +41,7 @@
     }
     input[type="text"],
     input[type="password"],
-    input[type="email"],
-    input[type="file"] {
+    input[type="email"] {
       width: 100%;
       padding: 10px;
       margin-top: 6px;
@@ -79,6 +78,22 @@
       border: none;
       cursor: pointer;
     }
+    .logo-option {
+      width: 80px;
+      height: 80px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      object-fit: cover;
+      transition: 0.2s;
+    }
+    .logo-option:hover {
+      border-color: #1e90ff;
+    }
+    .logo-option.selected {
+      border-color: #00ffcc;
+      box-shadow: 0 0 10px #00ffcc;
+    }
     p.message {
       margin-top: 15px;
       text-align: center;
@@ -101,13 +116,6 @@
       list-style: inside disc;
       margin-left: 0;
     }
-    #logoPreview {
-      display: none;
-      max-width: 150px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
   </style>
 </head>
 <body>
@@ -116,35 +124,6 @@
     <p id="welcomeMsg" style="text-align:center; font-weight:bold;"></p>
     <button id="logoutBtn">Logout</button>
 
-    <!-- Login -->
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="loginUsername">Benutzername</label>
-      <input type="text" id="loginUsername" name="loginUsername" required />
-
-      <label for="loginPassword">Passwort</label>
-      <input type="password" id="loginPassword" name="loginPassword" required />
-
-      <button type="submit">Einloggen</button>
-      <p id="loginMessage" class="message"></p>
-    </form>
-
-    <!-- Registrierung -->
-    <h2>Registrieren</h2>
-    <form id="registerForm">
-      <label for="regUsername">Benutzername</label>
-      <input type="text" id="regUsername" name="regUsername" required />
-
-      <label for="regEmail">E-Mail</label>
-      <input type="email" id="regEmail" name="regEmail" required />
-
-      <label for="regPassword">Passwort</label>
-      <input type="password" id="regPassword" name="regPassword" required />
-
-      <button type="submit">Registrieren</button>
-      <p id="registerMessage" class="message"></p>
-    </form>
-
     <!-- Vereinserstellung -->
     <section id="vereinSection" style="display:none;">
       <h2>Eigenen Verein erstellen</h2>
@@ -152,12 +131,22 @@
         <label for="vereinName">Vereinsname</label>
         <input type="text" id="vereinName" name="vereinName" required />
 
-        <label for="vereinLogo">Logo hochladen (PNG/JPG, max. 1MB)</label>
-        <input type="file" id="vereinLogo" name="vereinLogo" accept="image/png, image/jpeg" />
-        <img id="logoPreview" src="" alt="Logo-Vorschau" />
+        <label>Wähle ein Vereinslogo</label>
+        <div id="logoSelection" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; justify-content: center;">
+          <img src="logos/logo1.png" class="logo-option" />
+          <img src="logos/logo2.png" class="logo-option" />
+          <img src="logos/logo3.png" class="logo-option" />
+          <img src="logos/logo4.png" class="logo-option" />
+          <img src="logos/logo5.png" class="logo-option" />
+          <img src="logos/logo6.png" class="logo-option" />
+          <img src="logos/logo7.png" class="logo-option" />
+          <img src="logos/logo8.png" class="logo-option" />
+          <img src="logos/logo9.png" class="logo-option" />
+          <img src="logos/logo10.png" class="logo-option" />
+        </div>
 
         <p style="color: #ffcc00; font-weight: bold; margin-top: 10px;">
-          Bitte keine lizenzierten Vereinsnamen oder Logos verwenden!
+          Bitte keine lizenzierten Logos verwenden – nur bereitgestellte auswählen.
         </p>
 
         <button type="submit">Verein erstellen</button>
@@ -165,6 +154,7 @@
       </form>
     </section>
 
+    <!-- Grundfunktionen -->
     <section>
       <h2>Grundfunktionen der Beta-Version</h2>
       <ul>
@@ -181,6 +171,7 @@
       </ul>
     </section>
 
+    <!-- Technische Hinweise -->
     <section>
       <h2>Technische Hinweise</h2>
       <ul>
@@ -191,187 +182,51 @@
     </section>
   </div>
 
-<script>
-  const loginForm = document.getElementById('loginForm');
-  const loginMessage = document.getElementById('loginMessage');
+  <script>
+    let selectedLogo = null;
 
-  const registerForm = document.getElementById('registerForm');
-  const registerMessage = document.getElementById('registerMessage');
+    document.querySelectorAll('.logo-option').forEach(img => {
+      img.addEventListener('click', () => {
+        document.querySelectorAll('.logo-option').forEach(i => i.classList.remove('selected'));
+        img.classList.add('selected');
+        selectedLogo = img.src;
+      });
+    });
 
-  const vereinSection = document.getElementById('vereinSection');
-  const vereinForm = document.getElementById('vereinForm');
-  const vereinMessage = document.getElementById('vereinMessage');
-  const vereinLogoInput = document.getElementById('vereinLogo');
-  const logoPreview = document.getElementById('logoPreview');
+    document.getElementById('vereinForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const vereinMessage = document.getElementById('vereinMessage');
+      const vereinName = document.getElementById('vereinName').value.trim();
 
-  const welcomeMsg = document.getElementById('welcomeMsg');
-  const logoutBtn = document.getElementById('logoutBtn');
+      if (!vereinName) {
+        vereinMessage.textContent = 'Bitte einen Vereinsnamen eingeben.';
+        vereinMessage.className = 'message error';
+        return;
+      }
 
-  function istLizenzierterVerein(name) {
-    const lizenzierteNamen = ['Bayern', 'Dortmund', 'Schalke', 'Real', 'Barcelona', 'Juventus'];
-    return lizenzierteNamen.some(n => name.toLowerCase().includes(n.toLowerCase()));
-  }
+      const username = localStorage.getItem('loggedInUser');
+      if (!username) {
+        vereinMessage.textContent = 'Kein eingeloggter Benutzer.';
+        vereinMessage.className = 'message error';
+        return;
+      }
 
-  function checkLoggedIn() {
-    const user = localStorage.getItem('loggedInUser');
-    if (user) {
-      vereinSection.style.display = 'block';
-      welcomeMsg.textContent = `Willkommen, ${user}!`;
-      logoutBtn.style.display = 'block';
-    } else {
-      vereinSection.style.display = 'none';
-      welcomeMsg.textContent = '';
-      logoutBtn.style.display = 'none';
-    }
-  }
-  checkLoggedIn();
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        vereinMessage.textContent = 'Benutzer nicht gefunden.';
+        vereinMessage.className = 'message error';
+        return;
+      }
 
-  logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('loggedInUser');
-    location.reload();
-  });
-
-  loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    loginMessage.textContent = '';
-
-    const storedUser = localStorage.getItem('user_' + username);
-    if (!storedUser) {
-      loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-      loginMessage.className = 'message error';
-      return;
-    }
-
-    const userData = JSON.parse(storedUser);
-    if (userData.password === password) {
-      localStorage.setItem('loggedInUser', username);
-      loginMessage.textContent = 'Login erfolgreich!';
-      loginMessage.className = 'message success';
-      checkLoggedIn();
-      loginForm.reset();
-      vereinSection.scrollIntoView({behavior: 'smooth'});
-    } else {
-      loginMessage.textContent = 'Benutzername oder Passwort falsch.';
-      loginMessage.className = 'message error';
-    }
-  });
-
-  registerForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const regUsername = document.getElementById('regUsername').value.trim();
-    const regEmail = document.getElementById('regEmail').value.trim();
-    const regPassword = document.getElementById('regPassword').value;
-
-    registerMessage.textContent = '';
-    if (!regUsername || !regEmail || !regPassword) {
-      registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
-      registerMessage.className = 'message error';
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(regEmail)) {
-      registerMessage.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
-      registerMessage.className = 'message error';
-      return;
-    }
-
-    if (localStorage.getItem('user_' + regUsername)) {
-      registerMessage.textContent = 'Benutzername existiert bereits.';
-      registerMessage.className = 'message error';
-      return;
-    }
-
-    const userData = { password: regPassword, email: regEmail, verein: null, logoBase64: null };
-    localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
-    registerMessage.textContent = 'Registrierung erfolgreich!';
-    registerMessage.className = 'message success';
-    registerForm.reset();
-  });
-
-  vereinLogoInput.addEventListener('change', function() {
-    const file = this.files[0];
-    if (!file) {
-      logoPreview.style.display = 'none';
-      logoPreview.src = '';
-      return;
-    }
-
-    if (file.size > 1024 * 1024) {
-      vereinMessage.textContent = 'Datei zu groß. Maximal 1MB erlaubt.';
-      vereinMessage.className = 'message error';
-      this.value = '';
-      logoPreview.style.display = 'none';
-      logoPreview.src = '';
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      logoPreview.src = e.target.result;
-      logoPreview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-
-    vereinMessage.textContent = 'Achtung: Keine lizenzierten Vereinslogos verwenden!';
-    vereinMessage.className = 'message';
-  });
-
-  vereinForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    vereinMessage.textContent = '';
-    const vereinName = document.getElementById('vereinName').value.trim();
-
-    if (!vereinName) {
-      vereinMessage.textContent = 'Bitte einen Vereinsnamen eingeben.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-    if (istLizenzierterVerein(vereinName)) {
-      vereinMessage.textContent = 'Dieser Vereinsname ist lizenziert.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const logoFile = vereinLogoInput.files[0];
-    const username = localStorage.getItem('loggedInUser');
-    if (!username) {
-      vereinMessage.textContent = 'Kein eingeloggter Benutzer.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const storedUser = localStorage.getItem('user_' + username);
-    if (!storedUser) {
-      vereinMessage.textContent = 'Benutzer nicht gefunden.';
-      vereinMessage.className = 'message error';
-      return;
-    }
-
-    const userData = JSON.parse(storedUser);
-
-    if (logoFile) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        userData.logoBase64 = event.target.result;
-        userData.verein = vereinName;
-        localStorage.setItem('user_' + username, JSON.stringify(userData));
-        vereinMessage.textContent = 'Verein gespeichert! Weiterleitung...';
-        vereinMessage.className = 'message success';
-        setTimeout(() => window.location.href = 'menue.html', 1500);
-      };
-      reader.readAsDataURL(logoFile);
-    } else {
+      const userData = JSON.parse(storedUser);
       userData.verein = vereinName;
-      userData.logoBase64 = null;
+      userData.logoBase64 = selectedLogo || null;
       localStorage.setItem('user_' + username, JSON.stringify(userData));
+
       vereinMessage.textContent = 'Verein gespeichert! Weiterleitung...';
       vereinMessage.className = 'message success';
       setTimeout(() => window.location.href = 'menue.html', 1500);
-    }
-  });
-</script>
+    });
+  </script>
 </body>
 </html>
