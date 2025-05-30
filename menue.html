@@ -10,12 +10,31 @@
       height: 100%;
       overflow: auto;
       background-color: transparent;
+      font-family: Arial, sans-serif;
+      color: #eee;
+      background-color: #111;
     }
     img {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+    .logout-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #ff4444;
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    .logout-btn:hover {
+      background-color: #d10000;
     }
   </style>
 </head>
@@ -25,30 +44,33 @@
 <img src="https://patrick19850306.github.io/Fussballmanager-Online-Beta/menuebild.png.png" usemap="#fussballmap" alt="Fußball Menü">
 
 <map name="fussballmap">
-  <!-- Stadion -->
   <area shape="rect" coords="50,620,270,770" href="/stadion" alt="Stadion" title="Stadion">
-
-  <!-- Transfermarkt -->
   <area shape="rect" coords="300,690,500,810" href="/transfermarkt" alt="Transfermarkt" title="Transfermarkt">
-
-  <!-- Vereinsheim -->
   <area shape="rect" coords="270,500,470,640" href="/vereinsheim" alt="Vereinsheim" title="Vereinsheim">
-
-  <!-- Pokal -->
   <area shape="rect" coords="480,380,630,520" href="/pokal" alt="Pokal" title="Pokal">
-
-  <!-- Fanshop -->
   <area shape="rect" coords="780,380,930,500" href="/fanshop" alt="Fanshop" title="Fanshop">
-
-  <!-- Trainingsplatz -->
   <area shape="rect" coords="720,500,950,660" href="/trainingsplatz" alt="Trainingsplatz" title="Trainingsplatz">
-
-  <!-- Statistik -->
   <area shape="rect" coords="860,660,1020,780" href="/statistik" alt="Statistik" title="Statistik">
-
-  <!-- Bank -->
   <area shape="rect" coords="100,420,260,540" href="/bank" alt="Bank" title="Bank">
 </map>
+
+<!-- Logout-Button -->
+<button id="logoutBtn" class="logout-btn">Logout</button>
+
+<script>
+  // Logout-Funktion
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = 'index.html'; // Hier dein Pfad zur Startseite
+  });
+
+  // Optional: Check, ob überhaupt eingeloggt
+  const username = localStorage.getItem('loggedInUser');
+  if (!username) {
+    // Falls nicht eingeloggt, zurück auf Startseite
+    window.location.href = 'index.html';
+  }
+</script>
 
 </body>
 </html>
