@@ -8,21 +8,24 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: auto;
-      background-color: transparent;
+      width: 100%;
+      overflow: hidden;
       font-family: Arial, sans-serif;
-      color: #eee;
       background-color: #111;
     }
     img {
-      max-width: 100%;
-      height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Bild strecken, damit es den ganzen Bildschirm ausfüllt */
       display: block;
-      margin: 0 auto;
     }
     .logout-btn {
-      display: block;
-      margin: 20px auto;
+      position: absolute;
+      top: 20px;
+      right: 20px;
       padding: 10px 20px;
       background-color: #ff4444;
       color: #fff;
@@ -32,6 +35,7 @@
       cursor: pointer;
       font-size: 1em;
       transition: background-color 0.3s ease;
+      z-index: 10; /* Über dem Bild */
     }
     .logout-btn:hover {
       background-color: #d10000;
@@ -40,7 +44,7 @@
 </head>
 <body>
 
-<!-- Bild mit interaktiver Image Map -->
+<!-- Vollbild-Bild mit ImageMap -->
 <img src="https://patrick19850306.github.io/Fussballmanager-Online-Beta/menuebild.png.png" usemap="#fussballmap" alt="Fußball Menü">
 
 <map name="fussballmap">
