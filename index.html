@@ -255,4 +255,106 @@
     }
     checkLoggedIn();
 
-    document.getElementById(
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      location.reload();
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const loginMessage = document.getElementById('loginMessage');
+      loginMessage.textContent = '';
+
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      if (userData.password === password) {
+        localStorage.setItem('loggedInUser', username);
+        loginMessage.textContent = 'Login erfolgreich!';
+        loginMessage.className = 'message success';
+        checkLoggedIn();
+        document.getElementById('loginForm').reset();
+      } else {
+        loginMessage.textContent = 'Benutzername oder Passwort falsch.';
+        loginMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const regUsername = document.getElementById('regUsername').value.trim();
+      const regEmail = document.getElementById('regEmail').value.trim();
+      const regPassword = document.getElementById('regPassword').value;
+      const registerMessage = document.getElementById('registerMessage');
+      registerMessage.textContent = '';
+
+      if (!regUsername || !regEmail || !regPassword) {
+        registerMessage.textContent = 'Bitte alle Felder ausfüllen.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(regEmail)) {
+        registerMessage.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      if (localStorage.getItem('user_' + regUsername)) {
+        registerMessage.textContent = 'Benutzername existiert bereits.';
+        registerMessage.className = 'message error';
+        return;
+      }
+
+      const userData = { password: regPassword, email: regEmail, verein: null, logoBase64: null };
+      localStorage.setItem('user_' + regUsername, JSON.stringify(userData));
+      registerMessage.textContent = 'Registrierung erfolgreich!';
+      registerMessage.className = 'message success';
+      document.getElementById('registerForm').reset();
+    });
+
+    document.getElementById('vereinForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const vereinMessage = document.getElementById('vereinMessage');
+      const vereinName = document.getElementById('vereinName').value.trim();
+
+      if (!vereinName) {
+        vereinMessage.textContent = 'Bitte einen Vereinsnamen eingeben.';
+        vereinMessage.className = 'message error';
+        return;
+      }
+
+      const username = localStorage.getItem('loggedInUser');
+      if (!username) {
+        vereinMessage.textContent = 'Kein eingeloggter Benutzer.';
+        vereinMessage.className = 'message error';
+        return;
+      }
+
+      const storedUser = localStorage.getItem('user_' + username);
+      if (!storedUser) {
+        vereinMessage.textContent = 'Benutzer nicht gefunden.';
+        vereinMessage.className = 'message error';
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      userData.verein = vereinName;
+      userData.logoBase64 = selectedLogo || null;
+      localStorage.setItem('user_' + username, JSON.stringify(userData));
+
+      vereinMessage.textContent = 'Verein gespeichert! Weiterleitung...';
+      vereinMessage.className = 'message success';
+      setTimeout(() => window.location.href = 'menue.html', 1500);
+    });
+  </script>
+</body>
+</html>
