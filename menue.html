@@ -8,41 +8,37 @@
     margin: 0;
     background: #000;
   }
-  svg {
-    display: block;
+  img {
     width: 100%;
     height: auto;
-  }
-  text {
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    fill: white;
-    cursor: pointer;
-    text-shadow: 1px 1px 2px black;
-  }
-  text:hover {
-    fill: #ff0;
+    display: block;
   }
 </style>
 </head>
 <body>
 
-<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg">
-  <image href="menuebild.png.png" width="1536" height="1024" />
+<img src="menuebild.png.png" usemap="#menumap" alt="Hauptmenü">
 
-  <a href="/stadion"><text x="730" y="120" font-size="40">STADION</text></a>
-  <a href="/bank"><text x="1000" y="140" font-size="40">BANK</text></a>
-  <a href="/statistiken"><text x="1150" y="460" font-size="40">STATISTIKEN</text></a>
-  <a href="/vereinsheim"><text x="780" y="560" font-size="40">VEREIN</text></a>
-  <a href="/pokal"><text x="780" y="960" font-size="40">POKAL</text></a>
-  <a href="/fanshop"><text x="300" y="720" font-size="40">FANSHOP</text></a>
-  <a href="/mannschaft"><text x="350" y="860" font-size="40">MANNSCHAFT</text></a>
-  <a href="/trainingsgelaende"><text x="940" y="800" font-size="40">TRAININGSGELÄNDE</text></a>
-  <a href="/sponsoren"><text x="1100" y="650" font-size="40">SPONSOREN</text></a>
-  <a href="/tm"><text x="1220" y="880" font-size="40">TM</text></a>
-  <a href="/nlz"><text x="580" y="280" font-size="40">NLZ</text></a>
-  <a href="/infrastruktur"><text x="1300" y="940" font-size="40">INFRASTRUKTUR</text></a>
-</svg>
+<map name="menumap">
+  <area shape="rect" coords="700,80,900,140" href="/stadion" alt="Stadion" title="Stadion">
+  <area shape="rect" coords="970,100,1170,160" href="/bank" alt="Bank" title="Bank">
+  <area shape="rect" coords="1100,420,1350,480" href="/statistiken" alt="Statistiken" title="Statistiken">
+  <area shape="rect" coords="750,520,1000,580" href="/vereinsheim" alt="Verein" title="Verein">
+  <area shape="rect" coords="750,920,950,980" href="/pokal" alt="Pokal" title="Pokal">
+  <area shape="rect" coords="270,680,470,740" href="/fanshop" alt="Fanshop" title="Fanshop">
+  <area shape="rect" coords="320,820,570,880" href="/mannschaft" alt="Mannschaft" title="Mannschaft">
+  <area shape="rect" coords="910,760,1210,820" href="/trainingsgelaende" alt="Trainingsgelände" title="Trainingsgelände">
+  <area shape="rect" coords="1070,610,1270,670" href="/sponsoren" alt="Sponsoren" title="Sponsoren">
+  <area shape="rect" coords="1190,840,1290,900" href="/tm" alt="TM" title="TM">
+  <area shape="rect" coords="550,240,650,300" href="/nlz" alt="NLZ" title="NLZ">
+  <area shape="rect" coords="1270,900,1520,960" href="/infrastruktur" alt="Infrastruktur" title="Infrastruktur">
 
-</body>
-</html>
+  <!-- Logout-Bereich: Ortsschild im Bild -->
+  <area shape="rect" coords="1200,30,1350,100" href="index.html" alt="Logout" title="Logout"
+        onclick="localStorage.removeItem('loggedInUser')">
+</map>
+
+<!-- Image Map Resizer für Responsiveness -->
+<script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
+<script>
+  imageMapResize();
