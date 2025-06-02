@@ -1,84 +1,48 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Fußballmanager - Menü</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      background: #000; /* Für Letterbox-Ränder */
-      font-family: Arial, sans-serif;
-    }
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* Zeigt immer das ganze Bild, keine abgeschnittenen Teile */
-      transform: translate(-50%, -50%);
-    }
-    .logout-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      background-color: #ff4444;
-      color: #fff;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background-color 0.3s ease;
-      z-index: 10;
-    }
-    .logout-btn:hover {
-      background-color: #d10000;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Fußballmanager – Hauptmenü</title>
+<style>
+  body {
+    margin: 0;
+    background: #000;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  text {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    fill: white;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px black;
+  }
+  text:hover {
+    fill: #ff0;
+  }
+</style>
 </head>
 <body>
 
-<img src="https://patrick19850306.github.io/Fussballmanager-Online-Beta/menuebild.png.png" usemap="#fussballmap" alt="Menübild">
+<svg viewBox="0 0 1536 1024" xmlns="http://www.w3.org/2000/svg">
+  <image href="menuebild.png.png" width="1536" height="1024" />
 
-<map name="fussballmap">
-  <area shape="rect" coords="50,620,270,770" href="/stadion" alt="Stadion" title="Stadion">
-  <area shape="rect" coords="300,690,500,810" href="/transfermarkt" alt="Transfermarkt" title="Transfermarkt">
-  <area shape="rect" coords="270,500,470,640" href="/vereinsheim" alt="Vereinsheim" title="Vereinsheim">
-  <area shape="rect" coords="480,380,630,520" href="/pokal" alt="Pokal" title="Pokal">
-  <area shape="rect" coords="780,380,930,500" href="/fanshop" alt="Fanshop" title="Fanshop">
-  <area shape="rect" coords="720,500,950,660" href="/trainingsplatz" alt="Trainingsplatz" title="Trainingsplatz">
-  <area shape="rect" coords="860,660,1020,780" href="/statistik" alt="Statistik" title="Statistik">
-  <area shape="rect" coords="100,420,260,540" href="/bank" alt="Bank" title="Bank">
-</map>
-
-<!-- Logout-Button -->
-<button id="logoutBtn" class="logout-btn">Logout</button>
-
-<!-- Plugin einbinden -->
-<script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
-
-<script>
-  // Starte das Plugin, damit Hotspots bei Größenänderung automatisch passen
-  imageMapResize();
-
-  // Logout-Funktion
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('loggedInUser');
-    window.location.href = 'index.html';
-  });
-
-  // Optional: Check, ob eingeloggt
-  const username = localStorage.getItem('loggedInUser');
-  if (!username) {
-    window.location.href = 'index.html';
-  }
-</script>
+  <a href="/stadion"><text x="730" y="120" font-size="40">STADION</text></a>
+  <a href="/bank"><text x="1000" y="140" font-size="40">BANK</text></a>
+  <a href="/statistiken"><text x="1150" y="460" font-size="40">STATISTIKEN</text></a>
+  <a href="/vereinsheim"><text x="780" y="560" font-size="40">VEREIN</text></a>
+  <a href="/pokal"><text x="780" y="960" font-size="40">POKAL</text></a>
+  <a href="/fanshop"><text x="300" y="720" font-size="40">FANSHOP</text></a>
+  <a href="/mannschaft"><text x="350" y="860" font-size="40">MANNSCHAFT</text></a>
+  <a href="/trainingsgelaende"><text x="940" y="800" font-size="40">TRAININGSGELÄNDE</text></a>
+  <a href="/sponsoren"><text x="1100" y="650" font-size="40">SPONSOREN</text></a>
+  <a href="/tm"><text x="1220" y="880" font-size="40">TM</text></a>
+  <a href="/nlz"><text x="580" y="280" font-size="40">NLZ</text></a>
+  <a href="/infrastruktur"><text x="1300" y="940" font-size="40">INFRASTRUKTUR</text></a>
+</svg>
 
 </body>
 </html>
