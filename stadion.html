@@ -1,35 +1,138 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Stadion</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 30px;
-      color: #333;
-    }
-    h1 {
-      color: #2a5298;
-    }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 8px 12px;
-      background-color: #2a5298;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-    a:hover {
-      background-color: #1e3c72;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Stadion – Ticketpreise</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+
+  body {
+   background: url('stadionmenue.jpg') center/cover no-repeat;
+  position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Abdunkelung */
+    z-index: 1;
+  }
+
+  .kassenhaeuschen {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    z-index: 2;
+  }
+
+  .kassenhaeuschen h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: #ff0;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .button:hover {
+    background: #ffc107;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
 </head>
 <body>
-  <h1>Stadion</h1>
-  <p>Hier kommen Inhalte für den Bereich Stadion.</p>
-  <a href="menue.html">Zurück zum Menü</a>
+
+<div class="overlay"></div>
+
+<div class="kassenhaeuschen">
+  <h2>Kassenhäuschen</h2>
+  
+  <label for="stehplatz">Stehplatz (€):</label>
+  <input type="number" id="stehplatz" placeholder="z.B. 10">
+
+  <label for="sitzplatz">Sitzplatz (€):</label>
+  <input type="number" id="sitzplatz" placeholder="z.B. 20">
+
+  <div id="logeSection" class="hidden">
+    <label for="loge">Loge (€):</label>
+    <input type="number" id="loge" placeholder="z.B. 50">
+  </div>
+
+  <div id="businessSection" class="hidden">
+    <label for="business">Business (€):</label>
+    <input type="number" id="business" placeholder="z.B. 100">
+  </div>
+
+  <button class="button" onclick="savePrices()">Speichern</button>
+</div>
+
+<script>
+// Status der Freischaltung
+const status = {
+  logeFreigeschaltet: false,   // Loge erst nach Ausbau sichtbar
+  businessFreigeschaltet: true // Business-Bereich ist schon freigeschaltet
+};
+
+window.onload = () => {
+  if (status.logeFreigeschaltet) {
+    document.getElementById('logeSection').classList.remove('hidden');
+  }
+  if (status.businessFreigeschaltet) {
+    document.getElementById('businessSection').classList.remove('hidden');
+  }
+};
+
+function savePrices() {
+  const stehplatz = document.getElementById('stehplatz').value;
+  const sitzplatz = document.getElementById('sitzplatz').value;
+  const loge = status.logeFreigeschaltet ? document.getElementById('loge').value : null;
+  const business = status.businessFreigeschaltet ? document.getElementById('business').value : null;
+
+  const preise = {
+    stehplatz, sitzplatz, loge, business
+  };
+
+  localStorage.setItem('ticketPrices', JSON.stringify(preise));
+
+  alert('Preise gespeichert!');
+}
+</script>
+
 </body>
 </html>
