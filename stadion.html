@@ -35,30 +35,25 @@
     background: #ffc107;
   }
 
-  .kassenhaeuschen {
+  .preiseingaben {
     position: absolute;
-    top: 50%;
-    left: 30%;
+    top: 50%; /* Hier die Position, wo das "Kassenhäuschen" im Bild ist */
+    left: 30%; /* Auch hier ggf. anpassen */
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,0.7);
     border: 2px solid #fff;
     border-radius: 10px;
-    padding: 20px;
-    width: 300px;
+    padding: 15px;
+    width: 250px;
     z-index: 2;
   }
 
-  .kassenhaeuschen h2 {
-    margin-top: 0;
-    text-align: center;
-  }
-
-  label {
+  .preiseingaben label {
     display: block;
     margin-top: 10px;
   }
 
-  input[type="number"] {
+  .preiseingaben input[type="number"] {
     width: 100%;
     margin-top: 5px;
     padding: 5px;
@@ -67,7 +62,7 @@
   }
 
   .button {
-    margin-top: 15px;
+    margin-top: 10px;
     width: 100%;
     padding: 10px;
     background: #ff0;
@@ -79,10 +74,6 @@
 
   .button:hover {
     background: #ffc107;
-  }
-
-  .hidden {
-    display: none;
   }
 
   .statusMessage {
@@ -97,36 +88,32 @@
 <!-- Zurück-Button -->
 <button class="back-button" onclick="window.location.href='menü.html'">⏪ Zurück</button>
 
-<!-- Image mit Map – hier kannst du das Bild und die Map-ID anpassen -->
+<!-- Hotspot-Bereich (z.B. Baufix-Schild) -->
 <img src="stadionmenue.png" usemap="#stadionmap" alt="Stadionmenü" style="width: 100%; height: auto; display: block;">
-
 <map name="stadionmap">
-  <!-- Dein Baufix-Schild-Bereich -->
-  <area shape="rect" coords="900,500,1200,1500" href="bau.html" alt="Baufix" title="Baufix: Stadion bauen / ausbauen">
+  <!-- Baufix-Schild -->
+  <area shape="rect" coords="900,100,1050,200" href="bau.html" alt="Baufix" title="Baufix: Stadion bauen / ausbauen">
 </map>
 
-<div class="kassenhaeuschen">
-  <h2>Kassenhäuschen</h2>
-  
+<!-- Preis-Eingaben direkt im Bildbereich -->
+<div class="preiseingaben">
   <label for="stehplatz">Stehplatz (€):</label>
   <input type="number" id="stehplatz" min="0" placeholder="z.B. 10">
 
   <label for="sitzplatz">Sitzplatz (€):</label>
   <input type="number" id="sitzplatz" min="0" placeholder="z.B. 20">
 
-  <div id="logeSection" class="hidden">
+  <div id="logeSection" style="display: none;">
     <label for="loge">Loge (€):</label>
     <input type="number" id="loge" min="0" placeholder="z.B. 50">
   </div>
 
-  <div id="businessSection" class="hidden">
+  <div id="businessSection" style="display: none;">
     <label for="business">Business (€):</label>
     <input type="number" id="business" min="0" placeholder="z.B. 100">
   </div>
 
   <button class="button" onclick="savePrices()">Speichern</button>
-  <button class="button" onclick="window.location.href='bau.html'">Baufix: Stadion bauen / ausbauen</button>
-
   <div id="statusMessage" class="statusMessage"></div>
 </div>
 
@@ -138,10 +125,10 @@ const status = {
 
 window.onload = () => {
   if (status.logeFreigeschaltet) {
-    document.getElementById('logeSection').classList.remove('hidden');
+    document.getElementById('logeSection').style.display = 'block';
   }
   if (status.businessFreigeschaltet) {
-    document.getElementById('businessSection').classList.remove('hidden');
+    document.getElementById('businessSection').style.display = 'block';
   }
 
   const savedPrices = JSON.parse(localStorage.getItem('ticketPrices'));
