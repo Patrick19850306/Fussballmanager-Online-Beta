@@ -37,8 +37,8 @@
 
   .preiseingaben {
     position: absolute;
-    top: 50%; /* Hier die Position, wo das "Kassenhäuschen" im Bild ist */
-    left: 30%; /* Auch hier ggf. anpassen */
+    top: 50%;
+    left: 30%;
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,0.7);
     border: 2px solid #fff;
@@ -88,12 +88,8 @@
 <!-- Zurück-Button -->
 <button class="back-button" onclick="window.location.href='menü.html'">⏪ Zurück</button>
 
-<!-- Hotspot-Bereich (z.B. Baufix-Schild) -->
-<img src="stadionmenue.png" usemap="#stadionmap" alt="Stadionmenü" style="width: 100%; height: auto; display: block;">
-<map name="stadionmap">
-  <!-- Baufix-Schild -->
-  <area shape="rect" coords="900,100,1050,200" href="bau.html" alt="Baufix" title="Baufix: Stadion bauen / ausbauen">
-</map>
+<!-- Bild ohne Map -->
+<img src="stadionmenue.png" alt="Stadionmenü" style="width: 100%; height: auto; display: block;">
 
 <!-- Preis-Eingaben direkt im Bildbereich -->
 <div class="preiseingaben">
