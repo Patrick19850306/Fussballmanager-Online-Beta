@@ -88,7 +88,7 @@
 <!-- Zurück-Button -->
 <button class="back-button" onclick="window.location.href='menü.html'">⏪ Zurück</button>
 
-<!-- Bild ohne Map -->
+<!-- Bild -->
 <img src="stadionmenue.png" alt="Stadionmenü" style="width: 100%; height: auto; display: block;">
 
 <!-- Preis-Eingaben direkt im Bildbereich -->
@@ -96,8 +96,10 @@
   <label for="stehplatz">Stehplatz (€):</label>
   <input type="number" id="stehplatz" min="0" placeholder="z.B. 10">
 
-  <label for="sitzplatz">Sitzplatz (€):</label>
-  <input type="number" id="sitzplatz" min="0" placeholder="z.B. 20">
+  <div id="sitzplatzSection" style="display: none;">
+    <label for="sitzplatz">Sitzplatz (€):</label>
+    <input type="number" id="sitzplatz" min="0" placeholder="z.B. 20">
+  </div>
 
   <div id="logeSection" style="display: none;">
     <label for="loge">Loge (€):</label>
@@ -114,12 +116,18 @@
 </div>
 
 <script>
+// Status der Freischaltung
 const status = {
-  logeFreigeschaltet: false,
-  businessFreigeschaltet: true
+  sitzplatzFreigeschaltet: false,  // Sitzplatz erst nach Ausbau sichtbar
+  logeFreigeschaltet: false,       // Loge erst nach Ausbau sichtbar
+  businessFreigeschaltet: true     // Business-Bereich ist schon freigeschaltet
 };
 
 window.onload = () => {
+  // Sichtbarkeit je nach Status
+  if (status.sitzplatzFreigeschaltet) {
+    document.getElementById('sitzplatzSection').style.display = 'block';
+  }
   if (status.logeFreigeschaltet) {
     document.getElementById('logeSection').style.display = 'block';
   }
@@ -127,10 +135,13 @@ window.onload = () => {
     document.getElementById('businessSection').style.display = 'block';
   }
 
+  // Gespeicherte Preise laden
   const savedPrices = JSON.parse(localStorage.getItem('ticketPrices'));
   if (savedPrices) {
     document.getElementById('stehplatz').value = savedPrices.stehplatz || '';
-    document.getElementById('sitzplatz').value = savedPrices.sitzplatz || '';
+    if (status.sitzplatzFreigeschaltet) {
+      document.getElementById('sitzplatz').value = savedPrices.sitzplatz || '';
+    }
     if (status.logeFreigeschaltet) {
       document.getElementById('loge').value = savedPrices.loge || '';
     }
@@ -142,7 +153,7 @@ window.onload = () => {
 
 function savePrices() {
   const stehplatz = parseFloat(document.getElementById('stehplatz').value) || 0;
-  const sitzplatz = parseFloat(document.getElementById('sitzplatz').value) || 0;
+  const sitzplatz = status.sitzplatzFreigeschaltet ? (parseFloat(document.getElementById('sitzplatz').value) || 0) : null;
   const loge = status.logeFreigeschaltet ? (parseFloat(document.getElementById('loge').value) || 0) : null;
   const business = status.businessFreigeschaltet ? (parseFloat(document.getElementById('business').value) || 0) : null;
 
