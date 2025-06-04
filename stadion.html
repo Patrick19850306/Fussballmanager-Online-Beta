@@ -17,6 +17,24 @@
     position: relative;
   }
 
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 3;
+  }
+
+  .back-button:hover {
+    background: #ffc107;
+  }
+
   .kassenhaeuschen {
     position: absolute;
     top: 50%;
@@ -76,6 +94,9 @@
 </head>
 <body>
 
+<!-- Zurück-Button -->
+<button class="back-button" onclick="window.location.href='menü.html'">⏪ Zurück</button>
+
 <div class="kassenhaeuschen">
   <h2>Kassenhäuschen</h2>
   
@@ -96,19 +117,18 @@
   </div>
 
   <button class="button" onclick="savePrices()">Speichern</button>
+  <button class="button" onclick="window.location.href='bau.html'">Baufix: Stadion bauen / ausbauen</button>
 
   <div id="statusMessage" class="statusMessage"></div>
 </div>
 
 <script>
-// Status der Freischaltung
 const status = {
-  logeFreigeschaltet: false,    // Loge erst nach Ausbau sichtbar
-  businessFreigeschaltet: true  // Business-Bereich ist schon freigeschaltet
+  logeFreigeschaltet: false,
+  businessFreigeschaltet: true
 };
 
 window.onload = () => {
-  // Loge- und Business-Bereich einblenden, wenn freigeschaltet
   if (status.logeFreigeschaltet) {
     document.getElementById('logeSection').classList.remove('hidden');
   }
@@ -116,7 +136,6 @@ window.onload = () => {
     document.getElementById('businessSection').classList.remove('hidden');
   }
 
-  // Gespeicherte Preise laden
   const savedPrices = JSON.parse(localStorage.getItem('ticketPrices'));
   if (savedPrices) {
     document.getElementById('stehplatz').value = savedPrices.stehplatz || '';
@@ -131,25 +150,18 @@ window.onload = () => {
 };
 
 function savePrices() {
-  // Eingaben abrufen und leere Felder mit 0 belegen
   const stehplatz = parseFloat(document.getElementById('stehplatz').value) || 0;
   const sitzplatz = parseFloat(document.getElementById('sitzplatz').value) || 0;
   const loge = status.logeFreigeschaltet ? (parseFloat(document.getElementById('loge').value) || 0) : null;
   const business = status.businessFreigeschaltet ? (parseFloat(document.getElementById('business').value) || 0) : null;
 
-  // Datenobjekt erstellen
   const preise = { stehplatz, sitzplatz, loge, business };
-
-  // Im localStorage speichern
   localStorage.setItem('ticketPrices', JSON.stringify(preise));
 
-  // Erfolgsnachricht anzeigen
   const statusMessage = document.getElementById('statusMessage');
   statusMessage.style.color = '#0f0';
   statusMessage.textContent = 'Preise erfolgreich gespeichert!';
-  setTimeout(() => {
-    statusMessage.textContent = '';
-  }, 3000);
+  setTimeout(() => { statusMessage.textContent = ''; }, 3000);
 }
 </script>
 
