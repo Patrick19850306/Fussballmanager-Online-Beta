@@ -116,15 +116,15 @@
 </div>
 
 <script>
-// Status der Freischaltung
+// Status der Freischaltung – alle Bereiche sind standardmäßig gesperrt (nur Stehplatz sichtbar)
 const status = {
-  sitzplatzFreigeschaltet: false,  // Sitzplatz erst nach Ausbau sichtbar
-  logeFreigeschaltet: false,       // Loge erst nach Ausbau sichtbar
-  businessFreigeschaltet: true     // Business-Bereich ist schon freigeschaltet
+  sitzplatzFreigeschaltet: false,
+  logeFreigeschaltet: false,
+  businessFreigeschaltet: false
 };
 
 window.onload = () => {
-  // Sichtbarkeit je nach Status
+  // Sichtbarkeit je nach Freischaltung
   if (status.sitzplatzFreigeschaltet) {
     document.getElementById('sitzplatzSection').style.display = 'block';
   }
