@@ -13,16 +13,8 @@
   }
 
   body {
-   background: url('stadionmenue.png') center/cover no-repeat;
-  position: relative;
-  }
-
-  .overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Abdunkelung */
-    z-index: 1;
+    background: url('stadionmenue.png') center/cover no-repeat;
+    position: relative;
   }
 
   .kassenhaeuschen {
@@ -74,63 +66,90 @@
   .hidden {
     display: none;
   }
+
+  .statusMessage {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+  }
 </style>
 </head>
 <body>
-
-<div class="overlay"></div>
 
 <div class="kassenhaeuschen">
   <h2>Kassenhäuschen</h2>
   
   <label for="stehplatz">Stehplatz (€):</label>
-  <input type="number" id="stehplatz" placeholder="z.B. 10">
+  <input type="number" id="stehplatz" min="0" placeholder="z.B. 10">
 
   <label for="sitzplatz">Sitzplatz (€):</label>
-  <input type="number" id="sitzplatz" placeholder="z.B. 20">
+  <input type="number" id="sitzplatz" min="0" placeholder="z.B. 20">
 
   <div id="logeSection" class="hidden">
     <label for="loge">Loge (€):</label>
-    <input type="number" id="loge" placeholder="z.B. 50">
+    <input type="number" id="loge" min="0" placeholder="z.B. 50">
   </div>
 
   <div id="businessSection" class="hidden">
     <label for="business">Business (€):</label>
-    <input type="number" id="business" placeholder="z.B. 100">
+    <input type="number" id="business" min="0" placeholder="z.B. 100">
   </div>
 
   <button class="button" onclick="savePrices()">Speichern</button>
+
+  <div id="statusMessage" class="statusMessage"></div>
 </div>
 
 <script>
 // Status der Freischaltung
 const status = {
-  logeFreigeschaltet: false,   // Loge erst nach Ausbau sichtbar
-  businessFreigeschaltet: true // Business-Bereich ist schon freigeschaltet
+  logeFreigeschaltet: false,    // Loge erst nach Ausbau sichtbar
+  businessFreigeschaltet: true  // Business-Bereich ist schon freigeschaltet
 };
 
 window.onload = () => {
+  // Loge- und Business-Bereich einblenden, wenn freigeschaltet
   if (status.logeFreigeschaltet) {
     document.getElementById('logeSection').classList.remove('hidden');
   }
   if (status.businessFreigeschaltet) {
     document.getElementById('businessSection').classList.remove('hidden');
   }
+
+  // Gespeicherte Preise laden
+  const savedPrices = JSON.parse(localStorage.getItem('ticketPrices'));
+  if (savedPrices) {
+    document.getElementById('stehplatz').value = savedPrices.stehplatz || '';
+    document.getElementById('sitzplatz').value = savedPrices.sitzplatz || '';
+    if (status.logeFreigeschaltet) {
+      document.getElementById('loge').value = savedPrices.loge || '';
+    }
+    if (status.businessFreigeschaltet) {
+      document.getElementById('business').value = savedPrices.business || '';
+    }
+  }
 };
 
 function savePrices() {
-  const stehplatz = document.getElementById('stehplatz').value;
-  const sitzplatz = document.getElementById('sitzplatz').value;
-  const loge = status.logeFreigeschaltet ? document.getElementById('loge').value : null;
-  const business = status.businessFreigeschaltet ? document.getElementById('business').value : null;
+  // Eingaben abrufen und leere Felder mit 0 belegen
+  const stehplatz = parseFloat(document.getElementById('stehplatz').value) || 0;
+  const sitzplatz = parseFloat(document.getElementById('sitzplatz').value) || 0;
+  const loge = status.logeFreigeschaltet ? (parseFloat(document.getElementById('loge').value) || 0) : null;
+  const business = status.businessFreigeschaltet ? (parseFloat(document.getElementById('business').value) || 0) : null;
 
-  const preise = {
-    stehplatz, sitzplatz, loge, business
-  };
+  // Datenobjekt erstellen
+  const preise = { stehplatz, sitzplatz, loge, business };
 
+  // Im localStorage speichern
   localStorage.setItem('ticketPrices', JSON.stringify(preise));
 
-  alert('Preise gespeichert!');
+  // Erfolgsnachricht anzeigen
+  const statusMessage = document.getElementById('statusMessage');
+  statusMessage.style.color = '#0f0';
+  statusMessage.textContent = 'Preise erfolgreich gespeichert!';
+  setTimeout(() => {
+    statusMessage.textContent = '';
+  }, 3000);
 }
 </script>
 
