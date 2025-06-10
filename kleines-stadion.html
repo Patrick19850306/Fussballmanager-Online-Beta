@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Kleines Stadion</title>
+<style>
+  body {
+    background: #222;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+  }
 
+  h1 {
+    text-align: center;
+  }
+
+  .stadion-details {
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px auto;
+    width: 300px;
+  }
+
+  .stadion-details h2 {
+    margin-top: 0;
+  }
+
+  .back-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 15px;
+    background: #ff0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .back-button:hover {
+    background: #ffc107;
+  }
+</style>
+</head>
+<body>
+
+<h1>🏟️ Kleines Stadion</h1>
+
+<div class="stadion-details">
+  <h2>Kapazität: 500</h2>
+  <p>Sitzplätze: 95</p>
+  <p>Logenplätze: 5</p>
+  <p>Stehplätze: 400</p>
+  <p>Dies ist dein Startstadion und kann nicht ausgebaut werden.</p>
+</div>
+
+<button class="back-button" onclick="window.location.href='stadionausbau.html'">⏪ Zurück</button>
+
+</body>
+</html>
