@@ -5,11 +5,27 @@
 <title>Stadionausbau Übersicht</title>
 <style>
   body {
-    background: #222;
+    background: url('baustelle-kran-stadion.png') center/cover no-repeat;
     font-family: Arial, sans-serif;
     color: #fff;
     margin: 0;
-    padding: 0;
+    padding: 20px;
+    position: relative;
+  }
+
+  /* Overlay für bessere Lesbarkeit */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 0;
+  }
+
+  body * {
+    position: relative;
+    z-index: 1;
   }
 
   h1 {
@@ -57,11 +73,27 @@
   .stadion button:hover {
     background: #ffc107;
   }
+
+  .back-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 15px;
+    background: #ff0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .back-button:hover {
+    background: #ffc107;
+  }
 </style>
 </head>
 <body>
 
-<h1>🏟️ Stadionausbau Übersicht</h1>
+<h1>🏗️ Stadionausbau Übersicht</h1>
 
 <div class="stadion-liste">
   <!-- Startstadion -->
@@ -71,7 +103,7 @@
     <p>Sitzplätze: 95</p>
     <p>Logenplätze: 5</p>
     <p>Stehplätze: 400</p>
-    <button onclick="window.location.href='kleines-stadion.html'">Ansehen</button>
+    <button onclick="window.location.href='../kleines-stadion.html'">Ansehen</button>
   </div>
 
   <!-- Ausbau-Stadien -->
@@ -105,6 +137,8 @@
     <button onclick="window.location.href='imperial-stadion.html'">Zum Ausbau-Menü</button>
   </div>
 </div>
+
+<button class="back-button" onclick="window.location.href='../stadionmenue.html'">⏪ Zurück</button>
 
 </body>
 </html>
