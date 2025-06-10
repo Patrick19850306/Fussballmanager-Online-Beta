@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Stadionausbau Übersicht</title>
+<style>
+  body {
+    background: #222;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
 
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .stadion-liste {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  .stadion {
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px;
+    color: #fff;
+  }
+
+  .stadion h2 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+
+  .stadion p {
+    margin: 5px 0;
+  }
+
+  .stadion button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background: #ff0;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .stadion button:hover {
+    background: #ffc107;
+  }
+</style>
+</head>
+<body>
+
+<h1>🏟️ Stadionausbau Übersicht</h1>
+
+<div class="stadion-liste">
+  <!-- Startstadion -->
+  <div class="stadion">
+    <h2>Startstadion: Kleines Stadion</h2>
+    <p>Kapazität: 500</p>
+    <p>Sitzplätze: 95</p>
+    <p>Logenplätze: 5</p>
+    <p>Stehplätze: 400</p>
+    <button onclick="window.location.href='kleines-stadion.html'">Ansehen</button>
+  </div>
+
+  <!-- Ausbau-Stadien -->
+  <div class="stadion">
+    <h2>Arena Nova</h2>
+    <p>Kapazität: 2000</p>
+    <button onclick="window.location.href='arena-nova.html'">Zum Ausbau-Menü</button>
+  </div>
+
+  <div class="stadion">
+    <h2>Sportpark Maximus</h2>
+    <p>Kapazität: 5000</p>
+    <button onclick="window.location.href='sportpark-maximus.html'">Zum Ausbau-Menü</button>
+  </div>
+
+  <div class="stadion">
+    <h2>Champions Tempel</h2>
+    <p>Kapazität: 10000</p>
+    <button onclick="window.location.href='champions-tempel.html'">Zum Ausbau-Menü</button>
+  </div>
+
+  <div class="stadion">
+    <h2>Olympia Palast</h2>
+    <p>Kapazität: 20000</p>
+    <button onclick="window.location.href='olympia-palast.html'">Zum Ausbau-Menü</button>
+  </div>
+
+  <div class="stadion">
+    <h2>Imperial Stadion</h2>
+    <p>Kapazität: 50000</p>
+    <button onclick="window.location.href='imperial-stadion.html'">Zum Ausbau-Menü</button>
+  </div>
+</div>
+
+</body>
+</html>
