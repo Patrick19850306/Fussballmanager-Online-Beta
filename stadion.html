@@ -103,6 +103,18 @@
       transform: translateX(-50%);
     }
   }
+
+  /* Baufix-Hotspot */
+  .baufix-hotspot {
+    position: absolute;
+    top: 70%; /* <- anpassen */
+    left: 75%; /* <- anpassen */
+    width: 100px; /* <- anpassen */
+    height: 50px; /* <- anpassen */
+    z-index: 3;
+    /* Für Debug: Hintergrund sichtbar machen */
+    /* background: rgba(255, 0, 0, 0.3); */
+  }
 </style>
 </head>
 <body>
@@ -110,8 +122,11 @@
 <!-- Zurück-Button -->
 <button class="back-button" onclick="window.location.href='menue.html'">⏪ Zurück</button>
 
-<!-- Bild -->
+<!-- Stadionmenü-Bild -->
 <img src="stadionmenue.png" alt="Stadionmenü" style="width: 100%; height: auto; display: block;">
+
+<!-- Baufix-Hotspot (unsichtbarer Link-Bereich) -->
+<a href="ausbau.html" class="baufix-hotspot"></a>
 
 <!-- Preis-Eingaben direkt im Bildbereich -->
 <div class="preiseingaben">
