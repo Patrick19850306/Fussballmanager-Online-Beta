@@ -10,6 +10,21 @@
       color: #fff;
       padding: 20px;
     }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #ff0;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-button:hover {
+      background: #ffc107;
+    }
     h1 {
       text-align: center;
       margin-bottom: 10px;
@@ -76,6 +91,8 @@
 </head>
 <body>
 
+<button class="back-button" onclick="window.location.href='ausbau.html'">⏪ Zurück</button>
+
 <h1>🏟️ Arena Nova – Tribünen-Ausbau</h1>
 <div class="guthaben-anzeige" id="guthaben-anzeige">Guthaben: 0 €</div>
 <div class="config-container">
@@ -87,8 +104,8 @@
     <input type="number" id="sitzplaetze" min="0" step="50">
   </label>
 
-  <label>Logen hinzufügen (min. 2):
-    <input type="number" id="logen" min="0" step="1">
+  <label>Logen hinzufügen (min. 2, max. 100):
+    <input type="number" id="logen" min="0" max="100" step="1">
   </label>
 
   <label>Tribünen-Umwandlung:
@@ -111,6 +128,7 @@
   <button class="calculate-btn" onclick="berechneKosten()">💶 Kosten berechnen</button>
 
   <div class="output" id="ausgabe">Gesamtkosten: –</div>
+  <div class="output" id="bauzeit">Bauzeit: –</div>
   <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 </div>
 
@@ -127,52 +145,113 @@ function berechneKosten() {
   const umwandlung = document.getElementById('umwandlung').value;
   const dach = document.getElementById('dach').value;
 
+  if (logen > 100) {
+    alert('Maximal 100 Logen sind erlaubt.');
+    return;
+  }
+
   let kosten = 0;
-  if (steh >= 500) kosten += steh * 80;
-  if (sitz >= 250) kosten += sitz * 250;
-  if (logen >= 2) kosten += logen * 5000;
+  let bauzeit = 0;
 
-  if (umwandlung === 'nurSteh') kosten += 100000;
-  if (umwandlung === 'nurSitz') kosten += 200000;
+  if (steh >= 500) {
+    kosten += steh * 80;
+    bauzeit += Math.ceil(steh / 1000) * 3;
+  }
+  if (sitz >= 250) {
+    kosten += sitz * 250;
+    bauzeit += Math.ceil(sitz / 500) * 4;
+  }
+  if (logen >= 2) {
+    kosten += logen * 5000;
+    bauzeit += logen * 2;
+  }
 
-  if (dach === 'teil') kosten += 30000;
-  if (dach === 'voll') kosten += 50000;
-  if (dach === 'solar') kosten += 70000;
+  if (umwandlung === 'nurSteh') {
+    kosten += 100000;
+    bauzeit += 7;
+  }
+  if (umwandlung === 'nurSitz') {
+    kosten += 200000;
+    bauzeit += 10;
+  }
 
-  const ausgabe = document.getElementById('ausgabe');
-  ausgabe.innerText = `Gesamtkosten: ${kosten.toLocaleString()} €`;
+  if (dach === 'teil') {
+    kosten += 30000;
+    bauzeit += 5;
+  }
+  if (dach === 'voll') {
+    kosten += 50000;
+    bauzeit += 8;
+  }
+  if (dach === 'solar') {
+    kosten += 70000;
+    bauzeit += 10;
+  }
+
+  document.getElementById('ausgabe').innerText = `Gesamtkosten: ${kosten.toLocaleString()} €`;
+  document.getElementById('bauzeit').innerText = `Bauzeit: ${bauzeit} Tage`;
 
   if (confirm(`Ausbau für ${kosten.toLocaleString()} € starten?`)) {
-    starteAusbau(kosten);
+    starteAusbau(kosten, bauzeit, dach);
   }
 }
 
-function starteAusbau(kosten) {
+function starteAusbau(kosten, bauzeit, dach) {
   let progress = 0;
   const fill = document.getElementById('progress');
   fill.style.width = '0%';
 
-  const guthaben = parseInt(localStorage.getItem('guthaben')) || 1000000;
+  let guthaben = parseInt(localStorage.getItem('guthaben')) || 1000000;
 
   if (guthaben < kosten) {
     alert('Nicht genug Guthaben!');
     return;
   }
 
-  localStorage.setItem('guthaben', guthaben - kosten);
+  guthaben -= kosten;
+  localStorage.setItem('guthaben', guthaben);
   updateGuthabenAnzeige();
 
+  const totalSteps = bauzeit * 10;
+  let currentStep = 0;
+
   const interval = setInterval(() => {
-    progress += 10;
-    fill.style.width = progress + '%';
-    if (progress >= 100) {
+    currentStep++;
+    const percent = Math.min(100, Math.floor((currentStep / totalSteps) * 100));
+    fill.style.width = percent + '%';
+    if (currentStep >= totalSteps) {
       clearInterval(interval);
       alert('Ausbau abgeschlossen!');
+
+      if (dach === 'solar') {
+        alert('Solardach installiert – Umweltbonus: 20.000 € erhalten!');
+        guthaben += 20000;
+        localStorage.setItem('guthaben', guthaben);
+        updateGuthabenAnzeige();
+        localStorage.setItem('solardachEinnahmeStart', Date.now());
+      }
     }
   }, 300);
 }
 
+function berechneMonatlicheSolarEinnahmen() {
+  const last = parseInt(localStorage.getItem('solardachEinnahmeStart'));
+  if (!last) return;
+  const jetzt = Date.now();
+  const tageVergangen = Math.floor((jetzt - last) / (1000 * 60 * 60 * 24));
+  if (tageVergangen >= 30) {
+    const monate = Math.floor(tageVergangen / 30);
+    let guthaben = parseInt(localStorage.getItem('guthaben')) || 0;
+    guthaben += monate * 5000;
+    localStorage.setItem('guthaben', guthaben);
+    localStorage.setItem('solardachEinnahmeStart', Date.now());
+    updateGuthabenAnzeige();
+    alert(`Solardach Einnahmen: ${monate * 5000} € gutgeschrieben.`);
+  }
+}
+
 updateGuthabenAnzeige();
+berechneMonatlicheSolarEinnahmen();
 </script>
 
 </body>
