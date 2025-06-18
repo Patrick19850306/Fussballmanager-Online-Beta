@@ -119,9 +119,9 @@
   <label>Tribünen-Überdachung:
     <select id="dach">
       <option value="keine">Keine</option>
-      <option value="teil">Teilüberdachung (30.000 €)</option>
-      <option value="voll">Vollüberdachung (50.000 €)</option>
-      <option value="solar">Dach mit Solarpanels (70.000 €)</option>
+      <option value="teil">Teilüberdachung (500.000 €)</option>
+      <option value="voll">Vollüberdachung (1.000.000 €)</option>
+      <option value="solar">Dach mit Solarpanels (2.000.000 €)</option>
     </select>
   </label>
 
@@ -154,37 +154,37 @@ function berechneKosten() {
   let bauzeit = 0;
 
   if (steh >= 500) {
-    kosten += steh * 80;
-    bauzeit += Math.ceil(steh / 1000) * 3;
+    kosten += steh * 150;
+    bauzeit += Math.ceil(steh / 1000) * 5;
   }
   if (sitz >= 250) {
-    kosten += sitz * 250;
-    bauzeit += Math.ceil(sitz / 500) * 4;
+    kosten += sitz * 350;
+    bauzeit += Math.ceil(sitz / 500) * 10;
   }
   if (logen >= 2) {
-    kosten += logen * 5000;
-    bauzeit += logen * 2;
+    kosten += logen * 8000;
+    bauzeit += logen * 5;
   }
 
   if (umwandlung === 'nurSteh') {
-    kosten += 100000;
+    kosten += 200000;
     bauzeit += 7;
   }
   if (umwandlung === 'nurSitz') {
-    kosten += 200000;
+    kosten += 400000;
     bauzeit += 10;
   }
 
   if (dach === 'teil') {
-    kosten += 30000;
+    kosten += 500000;
     bauzeit += 5;
   }
   if (dach === 'voll') {
-    kosten += 50000;
+    kosten += 100000;
     bauzeit += 8;
   }
   if (dach === 'solar') {
-    kosten += 70000;
+    kosten += 200000;
     bauzeit += 10;
   }
 
