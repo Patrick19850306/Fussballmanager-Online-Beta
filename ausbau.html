@@ -75,15 +75,16 @@
   }
 
   .back-button {
-    display: block;
-    margin: 20px auto 0;
+    position: absolute;
+    top: 20px;
+    left: 20px;
     padding: 10px 15px;
     background: #ff0;
     color: #000;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-align: center;
+    z-index: 2;
   }
 
   .back-button:hover {
@@ -92,6 +93,9 @@
 </style>
 </head>
 <body>
+
+<!-- Zurück-Button oben links -->
+<button class="back-button" onclick="window.location.href='stadion.html'">⏪ Zurück</button>
 
 <h1>🏗️ Stadionausbau Übersicht</h1>
 
@@ -137,8 +141,6 @@
     <button onclick="window.location.href='imperial-stadion.html'">Zum Ausbau-Menü</button>
   </div>
 </div>
-
-<button class="back-button" onclick="window.location.href='../stadion.html'">⏪ Zurück</button>
 
 </body>
 </html>
