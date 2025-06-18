@@ -155,15 +155,15 @@ function berechneKosten() {
 
   if (steh >= 500) {
     kosten += steh * 150;
-    bauzeit += Math.ceil(steh / 1000) * 5;
+    bauzeit += Math.ceil(steh / 1000) * 3;
   }
   if (sitz >= 250) {
     kosten += sitz * 350;
-    bauzeit += Math.ceil(sitz / 500) * 10;
+    bauzeit += Math.ceil(sitz / 500) * 4;
   }
   if (logen >= 2) {
     kosten += logen * 8000;
-    bauzeit += logen * 5;
+    bauzeit += logen * 2;
   }
 
   if (umwandlung === 'nurSteh') {
